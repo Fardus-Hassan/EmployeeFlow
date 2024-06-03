@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BiSolidContact } from "react-icons/bi";
 import { IoMdHome } from "react-icons/io";
 import { TbLogout } from "react-icons/tb";
@@ -5,13 +6,44 @@ import { Link, NavLink } from "react-router-dom";
 
 
 const NavBar = () => {
+
+        
+    // console.log(icon);
+    const [isDark, setIsDark] = useState(() => {
+        // Retrieve theme preference from local storage or default to false (light theme)
+        const savedTheme = localStorage.getItem("theme");
+        return savedTheme ? JSON.parse(savedTheme) : false;
+    });
+
+
+    useEffect(() => {
+        // Save theme preference to local storage whenever it changes
+        localStorage.setItem("theme", JSON.stringify(isDark));
+
+        // Update HTML class based on the theme
+        const html = document.querySelector("html");
+        if (isDark) {
+            html.classList.add("dark");
+            html.classList.remove("light");
+        } else {
+            html.classList.add("light");
+            html.classList.remove("dark");
+        }
+
+    }, [isDark]);
+
+    const toggle = () => {
+        setIsDark(!isDark);
+    };
+
+
     return (
         <div>
             <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l">
-                <div className='flex items-center gap-3 mb-5'>
+                <Link to='/' className='flex items-center gap-3 mb-5'>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
                     <h2 className='text-xl font-bold italic'>EmployeeFlow</h2>
-                </div>
+                </Link>
 
                 <div className="flex flex-col justify-between flex-1 mt-6">
                     <nav>

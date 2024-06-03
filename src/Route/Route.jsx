@@ -5,6 +5,7 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Contact from "../Pages/Contact/Contact";
 import Error from "../Sheared/Error";
+import DashBoard from "../Pages/DashBoard/DashBoard";
 
 const Route = createBrowserRouter([
     {
@@ -30,7 +31,7 @@ const Route = createBrowserRouter([
             },
             {
                 path: "/dashboard",
-                element: <h1>404</h1>,
+                element: <DashBoard></DashBoard>,
             }
         ],
     },

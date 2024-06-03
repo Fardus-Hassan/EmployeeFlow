@@ -1,12 +1,17 @@
 import Banner from "./HomeComponents/Banner";
+import Testimonials from "./HomeComponents/Testimonials";
 
 
 
 const Home = () => {
+
+    const currentUrl = window.location.href;
+    console.log(currentUrl);
+    
     return (
         <div>
             <Banner></Banner>
-            <div className="h-[1000px]"></div>
+            <Testimonials></Testimonials>
         </div>
     );
 };

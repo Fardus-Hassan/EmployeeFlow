@@ -40,11 +40,14 @@ const NavBar = () => {
 
     return (
         <div>
-            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l">
+
+            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l border-pmColor border-opacity-50">
+
                 <Link to='/' className='flex items-center gap-3 mb-5' onClick={() => toggle(setIsDark(!isDark))}>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
                     <h2 className='text-xl font-bold italic text-black dark:text-white'>EmployeeFlow</h2>
                 </Link>
+
 
                 <div className="flex flex-col justify-between flex-1 mt-10">
                     <nav>
@@ -60,7 +63,7 @@ const NavBar = () => {
                             <span className="mx-4 font-medium">Contact</span>
                         </NavLink>
                         <NavLink to='/dashboard' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:bg-secColor hover:text-white rounded-md dark:text-white" href="#">
-                            <MdSpaceDashboard className="text-lg"/>
+                            <MdSpaceDashboard className="text-lg" />
 
                             <span className="mx-4 font-medium">Dashboard</span>
                         </NavLink>

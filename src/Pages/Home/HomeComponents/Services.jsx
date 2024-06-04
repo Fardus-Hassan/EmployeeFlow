@@ -6,10 +6,10 @@ const Services = () => {
 
     return (
         <div className='sm:my-[100px] my-10 px-6'>
-            <div className='pb-10'>
+            <div className='pb-12'>
                 <p className="text-xl text-pmColor font-montserrat font-bold text-center">Our Services</p>
                 <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
-                The services we provide
+                services we provide
                 </h1>
             </div>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6'>

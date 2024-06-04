@@ -134,7 +134,7 @@ const Testimonials = () => {
             <div className="w-full px-6 mx-auto overflow-x-hidden bg-white dark:bg-themeColor sm:my-[100px] my-10">
                 <p className="text-xl text-pmColor font-montserrat font-bold text-center">Testimonials</p>
                 <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
-                    What clients are saying
+                    Employees Are Say
                 </h1>
                 <main className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
                     <div className={`absolute w-full bg-pmColor -z-10 md:h-96 rounded-2xl`}></div>

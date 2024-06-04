@@ -41,7 +41,7 @@ const NavBar = () => {
     return (
         <div>
 
-            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l border-pmColor border-opacity-50">
+            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l border-secColor border-opacity-50">
 
                 <Link to='/' className='flex items-center gap-3 mb-5' onClick={() => toggle(setIsDark(!isDark))}>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />

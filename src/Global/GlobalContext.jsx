@@ -11,6 +11,7 @@ const GlobalContext = ({ children }) => {
     const [searchData, setSearchData] = useState([])
     const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [url, setUrl] =useState('')
 
     // AuthContext ---------------------------------------------------------------------------------------------------
     const [user, setUser] = useState(null);
@@ -93,6 +94,15 @@ const GlobalContext = ({ children }) => {
     //     const { data } = await axios.get(`${import.meta.env.VITE_SERVER}/events/search/event?search=${value}`)
     //     setSearchData(data);
     // }
+
+
+
+    // const currentUrl = window.location.href;
+    // console.log(currentUrl);
+    // useEffect(() => {
+    //     setUrl(currentUrl);
+    // }, [currentUrl]);
+    // console.log(url);
 
 
     return (

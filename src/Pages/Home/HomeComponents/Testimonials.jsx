@@ -20,7 +20,7 @@ const testimonials = [
         name: 'Jane Smith',
         position: 'CTO at TechCorp',
         photo: 'https://images.pexels.com/photos/10031556/pexels-photo-10031556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        testimonial: '“Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur”.'
+        testimonial: '“Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur”.'
     }
 ];
 
@@ -68,7 +68,7 @@ const Testimonials = () => {
         if (animate) {
             const timeout = setTimeout(() => {
                 setAnimate(false);
-            }, 300); // Match animation duration here
+            }, 500); // Match animation duration here
             return () => clearTimeout(timeout);
         }
     }, [animate]);
@@ -119,43 +119,43 @@ const Testimonials = () => {
                     }
                 }
                 .slide-in-right {
-                    animation: slide-in-right 0.3s forwards;
+                    animation: slide-in-right 0.5s forwards;
                 }
                 .slide-out-right {
-                    animation: slide-out-right 0.3s forwards;
+                    animation: slide-out-right 0.5s forwards;
                 }
                 .slide-in-left {
-                    animation: slide-in-left 0.3s forwards;
+                    animation: slide-in-left 0.5s forwards;
                 }
                 .slide-out-left {
-                    animation: slide-out-left 0.3s forwards;
+                    animation: slide-out-left 0.5s forwards;
                 }
             `}</style>
-            <div className="max-w-6xl px-6 py-10 mx-auto">
-                <p className="text-xl font-medium text-blue-500">Testimonials</p>
-                <h1 className="mt-2 text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
+            <div className="w-full px-6 mx-auto overflow-x-hidden bg-white dark:bg-themeColor sm:my-[100px] my-10">
+                <p className="text-xl text-pmColor font-montserrat font-bold text-center">Testimonials</p>
+                <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
                     What clients are saying
                 </h1>
                 <main className="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
                     <div className={`absolute w-full bg-pmColor -z-10 md:h-96 rounded-2xl`}></div>
                     <div className={`w-full p-6 bg-pmColor md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly ${animate ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}>
                         <img
-                            className={`h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl ${animate ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}
+                            className={`h-24 w-24 md:mx-6 rounded-full shadow-xl object-cover md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl ${animate ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}
                             src={currentTestimonial.photo}
                             alt={currentTestimonial.name}
                         />
                         <div className={`mt-2 md:mx-6 ${animate ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}>
                             <div>
-                                <p className="text-xl font-medium tracking-tight text-white">{currentTestimonial.name}</p>
+                                <p className="text-xl racking-tight text-white font-poppins font-semibold">{currentTestimonial.name}</p>
                                 <p className="text-white opacity-70">{currentTestimonial.position}</p>
                             </div>
-                            <p className="mt-4 text-lg leading-relaxed text-white md:text-xl">
+                            <p className="mt-4 text-lg leading-relaxed font-montserrat text-white md:text-xl">
                                 {currentTestimonial.testimonial}
                             </p>
                             <div className="flex items-center justify-between mt-6 md:justify-start">
                                 <button
                                     title="left arrow"
-                                    className="p-2 text-white transition-colors duration-300 border rounded-full rtl:-scale-x-100 hover:bg-blue-400"
+                                    className="p-2 text-white transition-colors hover:bg-secColor duration-500 border rounded-full rtl:-scale-x-100"
                                     onClick={handlePrevClick}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -164,7 +164,7 @@ const Testimonials = () => {
                                 </button>
                                 <button
                                     title="right arrow"
-                                    className="p-2 text-white transition-colors duration-300 border rounded-full rtl:-scale-x-100 md:mx-6 hover:bg-blue-400"
+                                    className="p-2 text-white transition-colors duration-500 border rounded-full rtl:-scale-x-100 md:mx-6 hover:bg-secColor"
                                     onClick={handleNextClick}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

@@ -5,12 +5,15 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Route from './Route/Route.jsx';
-import { ParallaxProvider } from 'react-scroll-parallax';
+import GlobalContext from './Global/GlobalContext.jsx';
+import { Toaster } from 'react-hot-toast';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-
+  <GlobalContext>
     <RouterProvider router={Route} />
-
-  </React.StrictMode>,
+    <Toaster position="top-center" reverseOrder={false} />
+  </GlobalContext>
+</React.StrictMode>
 )

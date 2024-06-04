@@ -2,7 +2,7 @@
 
 const Register = () => {
     return (
-        <div>
+        <div className="">
             
         </div>
     );

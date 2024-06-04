@@ -2,11 +2,11 @@
 
 const Footer = () => {
     return (
-        <footer className="bg-white dark:bg-gray-900 w-full">
+        <footer className="bg-white dark:bg-themeColor w-full">
             <div className="flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
                 <div className='flex items-center gap-3'>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
-                    <h2 className='text-xl font-bold italic'>EmployeeFlow</h2>
+                    <h2 className='text-xl font-bold italic text-black dark:text-white'>EmployeeFlow</h2>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright 2024. All Rights Reserved.</p>
 

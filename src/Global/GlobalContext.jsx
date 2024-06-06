@@ -11,7 +11,6 @@ const GlobalContext = ({ children }) => {
     const [searchData, setSearchData] = useState([])
     const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [url, setUrl] =useState('')
 
     // AuthContext ---------------------------------------------------------------------------------------------------
     const [user, setUser] = useState(null);

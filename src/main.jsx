@@ -11,9 +11,9 @@ import { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-  <GlobalContext>
-    <RouterProvider router={Route} />
-    <Toaster position="top-center" reverseOrder={false} />
-  </GlobalContext>
-</React.StrictMode>
+    <GlobalContext>
+      <RouterProvider router={Route} />
+      <Toaster position="top-center" reverseOrder={false} />
+    </GlobalContext>
+  </React.StrictMode>
 )

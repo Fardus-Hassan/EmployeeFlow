@@ -76,7 +76,7 @@ const Testimonials = () => {
     const currentTestimonial = testimonials[currentIndex];
 
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="bg-white dark:bg-themeColor">
             <style>{`
                 @keyframes slide-in-right {
                     from {
@@ -131,7 +131,7 @@ const Testimonials = () => {
                     animation: slide-out-left 0.5s forwards;
                 }
             `}</style>
-            <div className="w-full px-6 mx-auto overflow-x-hidden bg-white dark:bg-themeColor sm:my-[100px] my-10">
+            <div className="w-[95%] mx-auto overflow-x-hidden sm:my-[100px] my-10">
                 <p className="text-xl text-pmColor font-montserrat font-bold text-center">Testimonials</p>
                 <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
                     Employees Are Say

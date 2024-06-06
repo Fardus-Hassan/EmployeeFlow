@@ -5,7 +5,7 @@ const Services = () => {
     const items = [1, 2, 3, 4, 5, 6]
 
     return (
-        <div className='sm:my-[100px] my-10 px-6'>
+        <div className='sm:my-[100px] my-10 w-[95%] mx-auto'>
             <div className='pb-12'>
                 <p className="text-xl text-pmColor font-montserrat font-bold text-center">Our Services</p>
                 <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">

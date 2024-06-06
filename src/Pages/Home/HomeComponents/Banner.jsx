@@ -18,7 +18,7 @@ const Banner = () => {
                         loop={true}
                         cursor='pointer'
                     /></span></h1>
-                    <p className='max-w-[800px] mx-auto text-center font-medium text-white lg:text-[16px] text-[14px] mt-4 mb-8 font-montserrat'>Streamline HR tasks, boost productivity, and foster collaboration with our innovative workforce management solutions. Join us for efficiency.</p>
+                    <p className='max-w-[800px] w-[95%] mx-auto text-center font-medium text-white lg:text-[16px] text-[14px] mt-4 mb-8 font-montserrat'>Streamline HR tasks, boost productivity, and foster collaboration with our innovative workforce management solutions. Join us for efficiency.</p>
                    </div>
                 </div>
             </div>

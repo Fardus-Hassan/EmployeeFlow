@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiSolidContact } from "react-icons/bi";
 import { IoMdHome } from "react-icons/io";
 import { MdSpaceDashboard } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import { Link, NavLink } from "react-router-dom";
+import { GlobalStateContext } from "../Global/GlobalContext";
 
 
 const NavBar = () => {
 
+    const { isOpen } = useContext(GlobalStateContext)
 
-    // console.log(icon);
     const [isDark, setIsDark] = useState(() => {
         // Retrieve theme preference from local storage or default to false (light theme)
         const savedTheme = localStorage.getItem("theme");
@@ -37,11 +38,13 @@ const NavBar = () => {
         setIsDark(!isDark);
     };
 
+    console.log(isOpen);
+
 
     return (
-        <div>
+        <div className={`xl:static absolute z-50 xl:translate-x-[0] ${isOpen ? "translate-x-[0]" : " translate-x-[-100%]"} duration-500 ease-out`}>
 
-            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l border-secColor border-opacity-50">
+            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l dark:border-white  dark:border-opacity-20">
 
                 <Link to='/' className='flex items-center gap-3 mb-5' onClick={() => toggle(setIsDark(!isDark))}>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />

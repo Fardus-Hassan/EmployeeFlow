@@ -3,14 +3,14 @@ import { FaArrowRight } from "react-icons/fa";
 
 const AboutUs = () => {
     return (
-            <div>
+            <div className='w-[95%] mx-auto'>
                 <div className='mb-12'>
                     <p className="text-xl text-pmColor font-montserrat font-bold text-center">About Us</p>
                     <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
                     Empower Your Team
                     </h1>
                 </div>
-                <div className="max-w-[1440px] mx-auto sm:mb-16 flex lg:flex-row flex-col justify-between items-center sm:gap-20 gap-8">
+                <div className="mx-auto sm:mb-16 flex xl:flex-row flex-col justify-between items-center sm:gap-20 gap-8">
                     <div data-aos="fade-down" data-aos-duration="1000" className="relative">
                         <div className="flex justify-between">
                             <div className="relative overflow-hidden w-[48.5%] h-[455px] sm:mb-20 rounded-xl">
@@ -28,7 +28,7 @@ const AboutUs = () => {
                             </div>
                         </div>
                     </div>
-                    <div data-aos="fade-down" data-aos-duration="1000" className="lg:max-w-[50%] lg:px-0 px-6 h-full">
+                    <div data-aos="fade-down" data-aos-duration="1000" className="xl:max-w-[50%] lg:px-0 px-6 h-full">
 
                         <h3 className="text-base sm:text-2xl font-poppins font-bold inline-block  text-pmColor">ABOUT US
                         </h3>

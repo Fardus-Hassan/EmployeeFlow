@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import WithLoading from "../../Components/smallComponents/WithLoading";
 
 
 const DashBoard = () => {
@@ -6,9 +7,10 @@ const DashBoard = () => {
 
 
     return (
-        <div>
-            <h1>dashboard</h1>
-        </div>
+        <WithLoading>
+            <div>
+            </div>
+        </WithLoading>
     );
 };
 

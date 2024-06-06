@@ -4,7 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 const AboutUs = () => {
     return (
             <div className='w-[95%] mx-auto'>
-                <div className='mb-12'>
+                <div className='sm:mb-12 mb-8'>
                     <p className="text-xl text-pmColor font-montserrat font-bold text-center">About Us</p>
                     <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
                     Empower Your Team

@@ -9,44 +9,15 @@ import { GlobalStateContext } from "../Global/GlobalContext";
 
 const NavBar = () => {
 
-    const { isOpen } = useContext(GlobalStateContext)
-
-    const [isDark, setIsDark] = useState(() => {
-        // Retrieve theme preference from local storage or default to false (light theme)
-        const savedTheme = localStorage.getItem("theme");
-        return savedTheme ? JSON.parse(savedTheme) : false;
-    });
-
-
-    useEffect(() => {
-        // Save theme preference to local storage whenever it changes
-        localStorage.setItem("theme", JSON.stringify(isDark));
-
-        // Update HTML class based on the theme
-        const html = document.querySelector("html");
-        if (isDark) {
-            html.classList.add("dark");
-            html.classList.remove("light");
-        } else {
-            html.classList.add("light");
-            html.classList.remove("dark");
-        }
-
-    }, [isDark]);
-
-    const toggle = () => {
-        setIsDark(!isDark);
-    };
-
-    console.log(isOpen);
+    const { isOpen, setIsOpen } = useContext(GlobalStateContext)
 
 
     return (
-        <div className={`xl:static absolute z-50 xl:translate-x-[0] ${isOpen ? "translate-x-[0]" : " translate-x-[-100%]"} duration-500 ease-out`}>
+        <div className={`z-50 fixed xl:translate-x-[0] ${isOpen ? "translate-x-[0]" : " translate-x-[-100%]"} duration-500 ease-out`}>
 
-            <aside className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l dark:border-white  dark:border-opacity-20">
+            <aside onClick={()=>setIsOpen(!isOpen)} className="flex flex-col w-60 h-screen max-h-screen px-4 py-8 overflow-y-auto bg-white dark:bg-themeColor2 border-r rtl:border-r-0 rtl:border-l dark:border-white  dark:border-opacity-20">
 
-                <Link to='/' className='flex items-center gap-3 mb-5' onClick={() => toggle(setIsDark(!isDark))}>
+                <Link to='/' className='flex items-center gap-3 mb-5'>
                     <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
                     <h2 className='text-xl font-bold italic text-black dark:text-white'>EmployeeFlow</h2>
                 </Link>
@@ -93,12 +64,12 @@ const NavBar = () => {
                     </nav>
 
                     <div className="flex items-center px-4 -mx-2 sm:mb-0 mb-10 hidden">
-                        <img className="object-cover mx-2 rounded-full h-9 w-9" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar" />
-                        <span className="mx-2 font-medium text-black">John Doe</span>
-                        <TbLogout className='text-xl ml-5' />
+                        <img className="object-cover mx-2 rounded-full h-10 w-10" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar" />
+                        <span className="mx-2 font-medium text-black dark:text-white">John Doe</span>
+                        <TbLogout className='text-xl ml-5 text-black dark:text-white' />
                     </div>
 
-                    <Link to='/login' className="group sm:mb-0 mb-10 relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
+                    <Link to='/login' className="group  relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
                         <span className="z-10 ml-7">Log In</span>
                         <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">

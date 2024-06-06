@@ -1,78 +1,89 @@
 import { Link } from "react-router-dom";
+import WithLoading from "../../Components/smallComponents/WithLoading";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useState } from "react";
 
 const Login = () => {
+
+    const [showPassword, setShowPassword] = useState(false)
+
     return (
-        <div className="flex flex-col justify-center items-center h-screen">
-            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-themeColor2 lg:max-w-4xl">
-                <div className="hidden bg-cover lg:block lg:w-1/2" style={{ backgroundImage: "url('https://images.pexels.com/photos/6415/apple-desk-office-working.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }}></div>
+        <WithLoading>
+            <div className="flex flex-col justify-center items-center min-h-screen">
+                <div className="flex w-[95%] max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-themeColor2 lg:max-w-4xl">
+                    <div className="hidden bg-cover lg:block lg:w-1/2" style={{ backgroundImage: "url('https://images.pexels.com/photos/2102416/pexels-photo-2102416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')" }}></div>
 
-                <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
-                    <div className='flex items-center justify-center gap-3 mb-5'>
-                        <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
-                        <h2 className='text-xl font-bold italic text-black dark:text-white'>EmployeeFlow</h2>
-                    </div>
-
-                    <p className="mt-3 text-center text-gray-600 dark:text-gray-200">
-                        Welcome back!
-                    </p>
-
-                    <div className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <div className="px-4 py-2">
-                            <svg className="w-6 h-6" viewBox="0 0 40 40">
-                                <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
-                                <path d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z" fill="#FF3D00" />
-                                <path d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z" fill="#4CAF50" />
-                                <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#1976D2" />
-                            </svg>
+                    <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
+                        <div className='flex items-center justify-center gap-3 mb-5'>
+                            <img className="w-14" src="https://i.ibb.co/KzY41M1/management-1.png" alt="" />
+                            <h2 className='text-xl font-bold italic text-black dark:text-white'>EmployeeFlow</h2>
                         </div>
 
-                        <span className="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
-                    </div>
+                        <p className="mt-3 text-center text-gray-600 dark:text-gray-200">
+                            Welcome back!
+                        </p>
 
-                    <div className="flex items-center justify-between mt-4">
-                        <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
-
-                        <div className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">or login with email</div>
-
-                        <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
-                    </div>
-
-                    <div className="mt-4">
-                        <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
-                        <input id="LoggingEmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
-                    </div>
-
-                    <div className="mt-4">
-                        <div className="flex justify-between">
-                            <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="loggingPassword">Password</label>
-                        </div>
-
-                        <input id="loggingPassword"className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="password" />
-                    </div>
-
-                    <div className="mt-6 rounded-lg">
-                        <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
-                            <span className="z-10 ml-7">Log In</span>
-                            <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
-                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">
-                                    <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor">
-                                    </path>
+                        <div className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <div className="px-4 py-2">
+                                <svg className="w-6 h-6" viewBox="0 0 40 40">
+                                    <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
+                                    <path d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z" fill="#FF3D00" />
+                                    <path d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z" fill="#4CAF50" />
+                                    <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#1976D2" />
                                 </svg>
                             </div>
+
+                            <span className="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-4">
+                            <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+
+                            <div className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">or login with email</div>
+
+                            <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
+                        </div>
+
+                        <div className="mt-4">
+                            <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
+                            <input id="LoggingEmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                        </div>
+
+                        <div className="mt-4">
+                            <div className="flex justify-between">
+                                <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="loggingPassword">Password</label>
                             </div>
-                        </button>
+
+                            <div className="relative">
+                            <input id="loggingPassword" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type={showPassword ? 'text' : 'password'} />
+                            {showPassword ? <FaEye onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/3fxNPxp/view.png" alt="" /> : <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/pj04qyJ/hide.png" alt="" />}
+                            </div>
+                        </div>
+
+                        <div className="mt-6 rounded-lg">
+                            <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
+                                <span className="z-10 ml-7">Log In</span>
+                                <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
+                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">
+                                        <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor">
+                                        </path>
+                                    </svg>
+                                </div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <Link to='/register' className="flex items-center justify-between mt-4">
+                            <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+
+                            <div className="text-xs font-bold text-pmColor uppercase dark:text-gray-400 hover:underline">or sign up</div>
+
+                            <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+                        </Link>
                     </div>
-
-                    <Link to='/register' className="flex items-center justify-between mt-4">
-                        <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
-
-                        <div className="text-xs font-bold text-pmColor uppercase dark:text-gray-400 hover:underline">or sign up</div>
-
-                        <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
-                    </Link>
                 </div>
             </div>
-        </div>
+        </WithLoading>
     );
 };
 

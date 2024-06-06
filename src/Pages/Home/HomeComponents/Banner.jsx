@@ -7,7 +7,7 @@ const Banner = () => {
             <div className="w-full h-[90vh] relative bg-fixed bg-no-repeat bg-cover bg-center" style={{backgroundImage: `url("https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")`}}>
                 {/* <img className="w-full h-[80vh] object-cover" src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" /> */}
                 <div className="bg-black bg-opacity-50 w-full h-full absolute top-0 flex justify-center items-center">
-                   <div>
+                   <div className="w-[95%] mx-auto">
                    <h1 className=' max-w-[600px] mx-auto text-center text-white lg:text-[46px] text-[35px] font-black font-poppins'>Empowering Workforce <span className='text-pmColor'><Typewriter
                         words={['Productivity', 'Performance', 'Effectiveness']}
                         typeSpeed={100}

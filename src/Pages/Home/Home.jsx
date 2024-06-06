@@ -1,4 +1,6 @@
 
+import Scroll from "../../Components/smallComponents/Scroll";
+import WithLoading from "../../Components/smallComponents/WithLoading";
 import AboutUs from "./HomeComponents/AboutUs";
 import Banner from "./HomeComponents/Banner";
 import Services from "./HomeComponents/Services";
@@ -11,12 +13,15 @@ const Home = () => {
 
 
     return (
-        <div>
-            <Banner></Banner>
-            <Services></Services>
-            <AboutUs></AboutUs>
-            <Testimonials></Testimonials>
-        </div>
+        <WithLoading>
+            <div>
+                <Banner></Banner>
+                <Services></Services>
+                <AboutUs></AboutUs>
+                <Testimonials></Testimonials>
+                <Scroll></Scroll>
+            </div>
+        </WithLoading>
     );
 };
 

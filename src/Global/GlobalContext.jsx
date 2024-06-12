@@ -62,7 +62,7 @@ const GlobalContext = ({ children }) => {
     }, [])
 
 
-    const updateUserProfile = (photoURL, name) => {
+    const updateUserProfile = async(photoURL, name) => {
 
         return updateProfile(auth.currentUser, {
 

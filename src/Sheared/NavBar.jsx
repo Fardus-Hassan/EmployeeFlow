@@ -9,7 +9,7 @@ import { GlobalStateContext } from "../Global/GlobalContext";
 
 const NavBar = () => {
 
-    const { isOpen, setIsOpen } = useContext(GlobalStateContext)
+    const { isOpen, setIsOpen, user, logout } = useContext(GlobalStateContext)
 
 
     return (
@@ -63,13 +63,15 @@ const NavBar = () => {
                         </a> */}
                     </nav>
 
-                    <div className="flex items-center px-4 -mx-2 sm:mb-0 mb-10 hidden">
-                        <img className="object-cover mx-2 rounded-full h-10 w-10" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar" />
-                        <span className="mx-2 font-medium text-black dark:text-white">John Doe</span>
-                        <TbLogout className='text-xl ml-5 text-black dark:text-white' />
+                    <div className={`items-center mt-10 ${user ? "flex":"hidden"}`}>
+                        <div className="max-w-10 max-h-10 rounded-full">
+                        <img className="object-cover mr-2 rounded-full h-10 w-10" title={user?.email} src={user?.photoURL} alt={user?.displayName} />
+                        </div>
+                        <span className="mx-2 font-medium text-black dark:text-white w-[120px]">{user?.displayName}</span>
+                        <TbLogout onClick={()=>logout()} className='text-xl ml-5 text-black dark:text-white cursor-pointer' title="logout" />
                     </div>
 
-                    <Link to='/login' className="group  relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
+                    <Link to='/login' className={`group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50 ${user ? "hidden":"block"}`}>
                         <span className="z-10 ml-7">Log In</span>
                         <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">

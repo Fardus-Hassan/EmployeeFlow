@@ -1,11 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import WithLoading from "../../Components/smallComponents/WithLoading";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { GlobalStateContext } from "../../Global/GlobalContext";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { auth } from "../../firebase.config";
 
 const Login = () => {
 
+    const { login } = useContext(GlobalStateContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const form = location?.state || '/';
+    const googleProvider = new GoogleAuthProvider();
+    const [error, setError] = useState(null)
     const [showPassword, setShowPassword] = useState(false)
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
+
+    const pass = watch('password',"");
+    useEffect(()=>{
+        setError("")
+    },[pass])
+
+    
+
+    const handleProvider = async(provider) => {
+
+        return signInWithPopup(auth, provider).then(result => {
+            if (result.user) {
+
+                toast.success('Login Successfully');
+                navigate(form);
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const onSubmit = (data) => {
+        setError('')
+        const { email, password } = data;
+        login(email, password).then((result) => {
+            if (result.user) {
+                navigate(form);
+                toast.success('Login Successfully');
+            }
+        })
+            .catch((error) => {
+
+                setError(error.message)
+            });
+    }
 
     return (
         <WithLoading>
@@ -23,7 +75,7 @@ const Login = () => {
                             Welcome back!
                         </p>
 
-                        <div className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <div onClick={() => handleProvider(googleProvider)} className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <div className="px-4 py-2">
                                 <svg className="w-6 h-6" viewBox="0 0 40 40">
                                     <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
@@ -44,34 +96,40 @@ const Login = () => {
                             <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
                         </div>
 
-                        <div className="mt-4">
-                            <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
-                            <input id="LoggingEmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
-                        </div>
-
-                        <div className="mt-4">
-                            <div className="flex justify-between">
-                                <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="loggingPassword">Password</label>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="mt-4">
+                                <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
+                                <input {...register("email", { required: true })}
+                                 id="LoggingEmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
                             </div>
+                            {errors.email && <span className="text-xs text-red-500">This Password field is required</span>}
 
-                            <div className="relative">
-                            <input id="loggingPassword" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type={showPassword ? 'text' : 'password'} />
-                            {showPassword ? <FaEye onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/3fxNPxp/view.png" alt="" /> : <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/pj04qyJ/hide.png" alt="" />}
+                            <div className="mt-4">
+                                <div className="flex justify-between">
+                                    <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="loggingPassword">Password</label>
+                                </div>
+
+                                <div className="relative">
+                                    <input {...register("password", { required: true })}
+                                    id="loggingPassword" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type={showPassword ? 'text' : 'password'} />
+                                    {showPassword ? <FaEye onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/3fxNPxp/view.png" alt="" /> : <FaEyeSlash onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 absolute top-[50%] translate-y-[-50%] right-3 text-pmColor" src="https://i.ibb.co/pj04qyJ/hide.png" alt="" />}
+                                </div>
                             </div>
-                        </div>
+                            {errors.password && <span className="text-xs text-red-500">This Password field is required</span> || <span className="text-xs text-red-500">{error}</span>}
 
-                        <div className="mt-6 rounded-lg">
-                            <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
-                                <span className="z-10 ml-7">Log In</span>
-                                <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
-                                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">
-                                        <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor">
-                                        </path>
-                                    </svg>
-                                </div>
-                                </div>
-                            </button>
-                        </div>
+                            <div className="mt-6 rounded-lg">
+                                <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
+                                    <span className="z-10 ml-7">Log In</span>
+                                    <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
+                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">
+                                            <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
 
                         <Link to='/register' className="flex items-center justify-between mt-4">
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>

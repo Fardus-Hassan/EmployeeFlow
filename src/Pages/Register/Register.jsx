@@ -9,17 +9,19 @@ import { updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth } from "../../firebase.config";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 
 const Register = () => {
 
     const [role, setRole] = useState(null);
     const [imgName, setImgName] = useState(null);
-    const { register: regis, setUser, logout } = useContext(GlobalStateContext);
-    const [error, setError] = useState(null)
+    const { register: regis, setUser, updateUserProfile } = useContext(GlobalStateContext);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const form = location?.state || '/';
-
+    const imgHostingKey = import.meta.env.VITE_imgbb_apiKey;
+    const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`;
 
     const {
         register,
@@ -28,70 +30,78 @@ const Register = () => {
         watch,
         setValue,
         formState: { errors },
-    } = useForm()
+    } = useForm();
 
     const photoName = watch('photo', '');
 
-    
-    useEffect(() => { setImgName(photoName[0]?.name) }, [photoName])
-    
+    useEffect(() => {
+        setImgName(photoName[0]?.name);
+    }, [photoName]);
 
+    const onSubmit = async (data) => {
+        const {
+            name, photo, phone, email, bankAccount, designation, salary, password, confirmPassword, role
+        } = data;
 
-    const onSubmit = (data) => {
-        const { name, photo, phone, email, bankAccount, designation, salary, password, confirmPassword, } = data;
-        // setImgName()
-        // console.log(name, photo, phone, email, bankAccount, designation, salary, password, confirmPassword, role);
+  
 
-        console.log(data);
-
+        // Validation for password
         if (password.length < 6) {
-            return setError('Password should be at least 6 characters')
+            return setError('Password should be at least 6 characters');
         }
         if (!/[A-Z]/.test(password)) {
-            return setError('Must have an UPPERCASE letter in the password')
+            return setError('Must have an UPPERCASE letter in the password');
         }
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            return setError('Must have an !@#$%^&*(),.?":{}|<> in the password')
+            return setError('Must have an !@#$%^&*(),.?":{}|<> in the password');
         }
-
         if (password !== confirmPassword) {
-            return setError('Password and Confirm Password must be same')
+            return setError('Password and Confirm Password must be same');
         }
-       
-        // regis(email, password).then((result) => {
 
-        //     const user = result.user;
-        //     setUser(user);
-        //     logout()
-        //     navigate('/login')
+        let imgUrl = null;
+        if (photo && photo[0]) {
+            const formData = new FormData();
+            formData.append('image', photo[0]);
 
+            try {
+                const response = await axios.post(imgHostingApi, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                imgUrl = response.data?.data?.url;
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                return setError('Failed to upload image');
+            }
+        }
 
-        //     updateProfile(auth.currentUser, {
+        // console.log(imgUrl);
 
-        //         displayName: name,
-        //         photoURL: photoURL
+        try {
+            const result = await regis(email, password);
+            const user = result.user;
+            setUser(user);
 
-        //     }).then(() => {
-        //         toast.success('Register Successfully');
+            await updateUserProfile(imgUrl,name);
+            toast.success('Register Successfully');
+        } catch (error) {
+            console.error(error);
+            return setError(error.message);
+        }
 
-        //     }).catch((error) => {
+        const userInfo = {name, imgUrl, phone, email, bankAccount, designation, salary, password, confirmPassword, role};
 
-        //         setError(error.message)
-        //     });
+        const {data : info} = await axios.post('http://localhost:3000/users', userInfo);
 
-        // })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         setError(error.message)
+        console.log(info);
 
-        //     });
-
-
-        //  reset();
-        setError("")
-        // setRole(null)
-
-    }
+        reset();
+        setError("");
+        setRole(null);
+        navigate(form)
+    };
 
 
 
@@ -225,8 +235,8 @@ const Register = () => {
                                     </div>
 
                                     <div className="sm:mt-7 mt-4 rounded-lg relative">
-                                    <span className="text-xs text-red-500 absolute z-10 top-[-22px] left-0">{error}</span>
-                                        <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">
+                                        <span className="text-xs text-red-500 absolute z-10 top-[-22px] left-0">{error}</span>
+                                        <button className={`group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50`}>
                                             <span className="z-10 ml-7">Register</span>
                                             <div className="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-lg bg-pmColor transition-[width] group-hover:w-[calc(100%-8px)]"><div className="mr-2.5 flex items-center justify-center">
                                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-neutral-50">

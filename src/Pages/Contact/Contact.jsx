@@ -23,11 +23,11 @@ const Contact = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='w-full h-full py-10 bg-pmColor relative'>
+                    <div className='w-full min-h-[50vh] py-10 bg-pmColor relative'>
                         <div className='bg-pmColor w-fit px-8 py-3 rounded-3xl absolute top-0 right-[50%] translate-x-[50%] translate-y-[-50%]'>
                             <h1 className='text-white font-poppins font-semibold text-nowrap'><Link to='/' className='hover:underline'>Home</Link> / <span>Contact</span></h1>
                         </div>
-                        <div className='flex justify-center items-center h-full'>
+                        <div className='flex flex-col justify-center items-center min-h-[50vh]'>
                             <div className='flex xl:justify-center justify-between gap-10 items-center xl:w-[75%] w-full md:flex-nowrap flex-wrap'>
                                 <div className='flex flex-col justify-center items-center xl:w-[30%] w-full translate-y-3'>
                                     <div className='rounded-full border-2 border-white p-10'>

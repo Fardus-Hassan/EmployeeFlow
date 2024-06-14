@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from "../firebase.config";
+import axios from "axios";
+import Spinner from "../Components/smallComponents/Spinner";
 
 
 export const GlobalStateContext = createContext(null);
@@ -11,6 +13,7 @@ const GlobalContext = ({ children }) => {
     const [searchData, setSearchData] = useState([])
     const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     // AuthContext ---------------------------------------------------------------------------------------------------
     const [user, setUser] = useState(null);
@@ -18,6 +21,9 @@ const GlobalContext = ({ children }) => {
 
 
     console.log(user);
+
+
+
 
 
     const register = (email, password) => {
@@ -49,20 +55,18 @@ const GlobalContext = ({ children }) => {
     }
 
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-
+        const unSubscribe = onAuthStateChanged(auth,(currentUser) => {
             setUser(currentUser);
-            setLoading(false)
-
-
+            setLoading(false);
         });
+
         return () => {
             unSubscribe();
         }
-    }, [])
+    }, []);
 
 
-    const updateUserProfile = async(photoURL, name) => {
+    const updateUserProfile = async (photoURL, name) => {
 
         return updateProfile(auth.currentUser, {
 
@@ -85,6 +89,19 @@ const GlobalContext = ({ children }) => {
 
     }
 
+    // useEffect(() => {
+    //     if (user) {
+    //         const { data } = axios.get(`http://localhost:3000/users/${user?.email}`);
+    //         if (data) {
+    //             setShowModal(false);
+    //         }
+    //         else {
+    //             setShowModal(true);
+    //         }
+    //     }
+
+    // }, [user]);
+
 
     // AuthContext --------------------------------------------------------------------------------------------------------------
 
@@ -103,10 +120,9 @@ const GlobalContext = ({ children }) => {
     // }, [currentUrl]);
     // console.log(url);
 
-
     return (
 
-        <GlobalStateContext.Provider value={{ user, searchData, open, isOpen, setIsOpen, setOpen, setLoading, register, login, logout, setUser, updateUserProfile, loading, }}>
+        <GlobalStateContext.Provider value={{ user, searchData, open, showModal, setShowModal, isOpen, setIsOpen, setOpen, setLoading, register, login, logout, setUser, updateUserProfile, loading, }}>
             {children}
         </GlobalStateContext.Provider>
 

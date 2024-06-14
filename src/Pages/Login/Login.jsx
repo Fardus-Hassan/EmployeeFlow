@@ -7,10 +7,11 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { auth } from "../../firebase.config";
+import axios from "axios";
 
 const Login = () => {
 
-    const { login } = useContext(GlobalStateContext);
+    const { login, setShowModal } = useContext(GlobalStateContext);
     const navigate = useNavigate();
     const location = useLocation();
     const form = location?.state || '/';
@@ -33,8 +34,16 @@ const Login = () => {
 
     const handleProvider = async(provider) => {
 
-        return signInWithPopup(auth, provider).then(result => {
+        return signInWithPopup(auth, provider).then(async(result) => {
             if (result.user) {
+
+                console.log("google provider" , result);
+                if (result.user?.email) {
+                    const { data } = await axios.get(`http://localhost:3000/users/${result.user?.email}`);
+                    if (!data) {
+                        setShowModal(true);
+                    }
+                }
 
                 toast.success('Login Successfully');
                 navigate(form);

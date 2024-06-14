@@ -4,6 +4,7 @@ import Footer from "../Sheared/Footer";
 import Toggle from "../Components/Theme/Toggle";
 import ScrollToTop from "../Components/smallComponents/ScrollToTop";
 import Scroll from "../Components/smallComponents/Scroll";
+import UserInfoModal from "../Components/UserInfoModal/UserInfoModal";
 
 const Root = () => {
 
@@ -21,6 +22,7 @@ const Root = () => {
                     <ScrollToTop>
                         <Toggle></Toggle>
                         <Outlet></Outlet>
+                        <UserInfoModal></UserInfoModal>
                         <Scroll></Scroll>
                     </ScrollToTop>
                 </div>

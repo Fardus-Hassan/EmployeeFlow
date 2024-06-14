@@ -9,7 +9,7 @@ import { GlobalStateContext } from "../Global/GlobalContext";
 
 const NavBar = () => {
 
-    const { isOpen, setIsOpen, user, logout } = useContext(GlobalStateContext)
+    const { isOpen, setIsOpen, user, logout, userRole, setUserRole } = useContext(GlobalStateContext)
 
 
     return (
@@ -64,7 +64,7 @@ const NavBar = () => {
                     </nav>
 
                     <div className={`items-center mt-10 ${user ? "flex":"hidden"}`}>
-                        <div className="max-w-10 max-h-10 rounded-full">
+                        <div className="max-w-10 max-h-10 rounded-full mr-2">
                         <img className="object-cover mr-2 rounded-full h-10 w-10" title={user?.email} src={user?.photoURL} alt={user?.displayName} />
                         </div>
                         <span className="mx-2 font-medium text-black dark:text-white w-[120px]">{user?.displayName}</span>

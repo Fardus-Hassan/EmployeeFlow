@@ -5,9 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import WithLoading from "../../Components/smallComponents/WithLoading";
 import { useContext, useEffect, useState } from "react";
 import { GlobalStateContext } from "../../Global/GlobalContext";
-import { updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
-import { auth } from "../../firebase.config";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -16,7 +14,7 @@ const Register = () => {
 
     const [role, setRole] = useState(null);
     const [imgName, setImgName] = useState(null);
-    const { register: regis, setUser, updateUserProfile } = useContext(GlobalStateContext);
+    const { register: regis, setUser, updateUserProfile} = useContext(GlobalStateContext);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const form = location?.state || '/';
@@ -32,79 +30,85 @@ const Register = () => {
         formState: { errors },
     } = useForm();
 
-    const photoName = watch('photo', '');
 
+
+    const photoName = watch('photo', '');
     useEffect(() => {
         setImgName(photoName[0]?.name);
     }, [photoName]);
+
+
 
     const onSubmit = async (data) => {
         const {
             name, photo, phone, email, bankAccount, designation, salary, password, confirmPassword, role
         } = data;
-
-  
-
-        // Validation for password
-        if (password.length < 6) {
-            return setError('Password should be at least 6 characters');
-        }
-        if (!/[A-Z]/.test(password)) {
-            return setError('Must have an UPPERCASE letter in the password');
-        }
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            return setError('Must have an !@#$%^&*(),.?":{}|<> in the password');
-        }
-        if (password !== confirmPassword) {
-            return setError('Password and Confirm Password must be same');
-        }
-
-        let imgUrl = null;
-        if (photo && photo[0]) {
-            const formData = new FormData();
-            formData.append('image', photo[0]);
-
-            try {
-                const response = await axios.post(imgHostingApi, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                imgUrl = response.data?.data?.url;
-            } catch (error) {
-                console.error('Error uploading image:', error);
-                return setError('Failed to upload image');
-            }
-        }
-
-        // console.log(imgUrl);
-
+    
         try {
+            // Password validation
+            if (password.length < 6) {
+                return setError('Password should be at least 6 characters');
+            }
+            if (!/[A-Z]/.test(password)) {
+                return setError('Must have an UPPERCASE letter in the password');
+            }
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                return setError('Must have a special character in the password');
+            }
+            if (password !== confirmPassword) {
+                return setError('Password and Confirm Password must match');
+            }
+    
+            let imgUrl = null;
+            // Upload photo if provided
+            if (photo && photo[0]) {
+                try {
+                    const formData = new FormData();
+                    formData.append('image', photo[0]);
+                    const response = await axios.post(imgHostingApi, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    imgUrl = response.data?.data?.url;
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    return setError('Failed to upload image');
+                }
+            }
+    
+            // Register user with email and password
             const result = await regis(email, password);
-            const user = result.user;
-            setUser(user);
-
-            await updateUserProfile(imgUrl,name);
-            toast.success('Register Successfully');
+            setUser(result.user);
+    
+            // Update user profile with uploaded image and name
+            await updateUserProfile(imgUrl, name);
+    
+            // Prepare user info to be sent to backend
+            const userInfo = {
+                name, imgUrl, phone, email, bankAccount, designation, salary, role
+            };
+    
+            // Send user info to backend for registration
+            const response = await axios.post('http://localhost:3000/users', userInfo);
+    
+            // Handle any error messages from the backend
+            if (response.data?.message) {
+                setError(response.data.message);
+            }
+    
+            // Reset form and state after successful registration
+            toast.success('Registered Successfully');
+            reset();
+            setError('');
+            setRole(null);
+            navigate(form); // Navigate to the specified form route
         } catch (error) {
-            console.error(error);
-            return setError(error.message);
+            console.error('Registration error:', error);
+            setError(error.message);
         }
-
-        const userInfo = {name, imgUrl, phone, email, bankAccount, designation, salary, password, confirmPassword, role};
-
-        const {data : info} = await axios.post('http://localhost:3000/users', userInfo);
-
-        console.log(info);
-
-        reset();
-        setError("");
-        setRole(null);
-        navigate(form)
     };
-
-
-
+    
 
 
     return (

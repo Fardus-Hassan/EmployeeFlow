@@ -17,8 +17,8 @@ const Home = () => {
             <div>
                 <Banner></Banner>
                 <Services></Services>
-                <AboutUs></AboutUs>
                 <Testimonials></Testimonials>
+                <AboutUs></AboutUs>
                 <Scroll></Scroll>
             </div>
         </WithLoading>

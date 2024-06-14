@@ -8,3 +8,17 @@
     background: #44bd32;
     color: white;
 }
+
+
+.parallax-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.parallax-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import  { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { GlobalStateContext } from '../../../Global/GlobalContext';
@@ -8,7 +8,7 @@ import { MdDeleteForever } from 'react-icons/md';
 
 const WorkSheet = () => {
 
-    const {user} = useContext(GlobalStateContext)
+    const { user } = useContext(GlobalStateContext)
     const [tasks, setTasks] = useState('');
     const [hoursWorked, setHoursWorked] = useState('');
     const [date, setDate] = useState(new Date());
@@ -18,33 +18,33 @@ const WorkSheet = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-              const { data } = await axios.get('http://localhost:3000/employeeWorkSheet');
-      
-              // Sort data by date (assuming date is in format dd/MM/yyyy)
-              data.sort((a, b) => {
-                const dateA = new Date(
-                  parseInt(a.date.split('/')[2]), // Year
-                  parseInt(a.date.split('/')[1]) - 1, // Month (zero-indexed)
-                  parseInt(a.date.split('/')[0]) // Day
-                );
-                const dateB = new Date(
-                  parseInt(b.date.split('/')[2]), // Year
-                  parseInt(b.date.split('/')[1]) - 1, // Month (zero-indexed)
-                  parseInt(b.date.split('/')[0]) // Day
-                );
-                return dateB - dateA; // Sort in descending order
-              });
-      
-              setEntries(data);
+                const { data } = await axios.get('http://localhost:3000/employeeWorkSheet');
+
+                // Sort data by date (assuming date is in format dd/MM/yyyy)
+                data.sort((a, b) => {
+                    const dateA = new Date(
+                        parseInt(a.date.split('/')[2]), // Year
+                        parseInt(a.date.split('/')[1]) - 1, // Month (zero-indexed)
+                        parseInt(a.date.split('/')[0]) // Day
+                    );
+                    const dateB = new Date(
+                        parseInt(b.date.split('/')[2]), // Year
+                        parseInt(b.date.split('/')[1]) - 1, // Month (zero-indexed)
+                        parseInt(b.date.split('/')[0]) // Day
+                    );
+                    return dateB - dateA; // Sort in descending order
+                });
+
+                setEntries(data);
             } catch (error) {
-              console.error('Failed to fetch data:', error);
+                console.error('Failed to fetch data:', error);
             }
-          };
-      
-          fetchData();
+        };
+
+        fetchData();
     }, [entries, deleteId])
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!tasks || !hoursWorked) return; // basic validation
 
@@ -59,7 +59,7 @@ const WorkSheet = () => {
             employeePhoto: user?.photoURL,
         };
 
-        const {data} = await axios.post('http://localhost:3000/employeeWorkSheet', newEntry);
+        const { data } = await axios.post('http://localhost:3000/employeeWorkSheet', newEntry);
         console.log(data);
         if (data.acknowledged) {
             setTasks('');
@@ -68,7 +68,7 @@ const WorkSheet = () => {
             toast.success("Submit Successfully")
         }
 
-         // Add the new entry to the entries array
+        // Add the new entry to the entries array
         // setEntries([...entries, newEntry]);
 
         // Clear the form fields
@@ -77,8 +77,8 @@ const WorkSheet = () => {
         // setDate(new Date());
     };
 
-    const handleDelete = async(id) => {
-        const {data} = await axios.delete(`http://localhost:3000/employeeWorkSheet/${id}`);
+    const handleDelete = async (id) => {
+        const { data } = await axios.delete(`http://localhost:3000/employeeWorkSheet/${id}`);
         console.log(data);
         if (data.acknowledged) {
             toast.success("Delete Successfully")
@@ -157,16 +157,17 @@ const WorkSheet = () => {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-themeColor divide-y divide-gray-200">
-                        {entries.map((entry) => (
-                            <tr key={entry._id}>
+                    <tbody className="bg-white dark:bg-themeColor">
+                        {entries.map((entry, index) => (
+                            <tr key={entry._id} className={index % 2 === 0 ? 'bg-gray-100 dark:bg-themeColor' : 'bg-white dark:bg-themeColor2'}>
                                 <td className="px-6 py-4 whitespace-nowrap text-black text-sm dark:text-white font-semibold text-center">{entry.tasks}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-black text-sm dark:text-white font-semibold text-center">{entry.hoursWorked} hours</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-black text-sm dark:text-white font-semibold text-center">{entry.date}</td>
-                                <td onClick={()=>handleDelete(entry._id)} className='text-secColor font-bold sm:pr-0 pr-3 cursor-pointer'><MdDeleteForever className='sm:text-2xl text-xl'/></td>
+                                <td onClick={() => handleDelete(entry._id)} className='text-secColor font-bold sm:pr-0 pr-3 cursor-pointer'><MdDeleteForever className='sm:text-2xl text-xl' /></td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             </div>
         </div>

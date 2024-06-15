@@ -22,3 +22,19 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+select {
+    appearance: none; /* Modern browsers */
+}
+
+.react-datepicker__input-container{
+    width: 100% !important;
+}
+
+.react-datepicker-wrapper{
+    width: 100% !important;
+}
+
+.react-datepicker__day--selected{
+    background-color: #44bd32!important;
+}

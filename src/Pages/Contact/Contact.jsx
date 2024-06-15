@@ -1,22 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import { MdAddIcCall, MdLocationOn } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import WithLoading from '../../Components/smallComponents/WithLoading';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
 
 const Contact = () => {
+
+
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [error, setError] = useState(null)
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm()
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const position = window.scrollY;
+            setScrollPosition(position);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+
+    const onSubmit = async (data) => {
+        setError('')
+        try {
+            const { data: info } = await axios.post('http://localhost:3000/contact', data);
+            if (info.acknowledged) {
+                reset();
+                toast.success('Message Send Successfully');
+            }
+        } catch (error) {
+            console.error(error);
+            return setError(error.message);
+        }
+
+
+    }
+
     return (
         <WithLoading>
             <div>
-                <div>
+                <div className='overflow-hidden'>
                     <div className='w-full lg:h-[50vh] h-[80vh] object-cover bg-fixed bg-cover bg-bottom' style={{ backgroundImage: `url("https://images.pexels.com/photos/8866725/pexels-photo-8866725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")` }}>
                         <div className="bg-black bg-opacity-50 w-full h-full flex flex-col justify-center items-center">
                             <div className='lg:flex lg:justify-center lg:items-center lg:gap-14 lg:ml-32'>
                                 <div className=''>
-                                    <h1 className='text-7xl font-poppins text-white font-bold text-center lg:mb-0 mb-5'>Contact</h1>
+                                    <h1 className='text-7xl font-poppins text-white font-bold text-center lg:mb-0 mb-5 duration-300 ease-out' style={{
+                                        transform: `translateX(${scrollPosition / -1}px)`
+                                    }}>Contact</h1>
                                 </div>
                                 <span className='lg:h-32 lg:w-[2px] w-[80%] h-[2px] block mx-auto lg:mb-0 mb-5 bg-white bg-opacity-40'></span>
-                                <div className='lg:space-y-0 space-y-3'>
+                                <div className='lg:space-y-0 space-y-3 duration-300 ease-out' style={{
+                                    transform: `translateX(${scrollPosition / 1}px)`
+                                }}>
                                     <p className='font-montserrat text-white w-full lg:my-2 font-semibold text-opacity-80 lg:text-left text-center'>Contact us for support assistance.</p>
                                     <p className='font-montserrat text-white w-full lg:my-2 font-semibold text-opacity-80 lg:text-left text-center'>Get in touch for employee management help.</p>
                                 </div>
@@ -28,7 +76,7 @@ const Contact = () => {
                             <h1 className='text-white font-poppins font-semibold text-nowrap'><Link to='/' className='hover:underline'>Home</Link> / <span>Contact</span></h1>
                         </div>
                         <div className='flex flex-col justify-center items-center min-h-[50vh]'>
-                            <div className='flex xl:justify-center justify-between gap-10 items-center xl:w-[75%] w-full md:flex-nowrap flex-wrap'>
+                            <div className='flex xl:justify-center justify-between gap-10 items-center 2xl:w-[80%] w-full md:flex-nowrap flex-wrap'>
                                 <div className='flex flex-col justify-center items-center xl:w-[30%] w-full translate-y-3'>
                                     <div className='rounded-full border-2 border-white p-10'>
                                         <MdLocationOn className='text-9xl text-white' />
@@ -62,29 +110,38 @@ const Contact = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='my-20 xl:w-[70%] lg:w-[90%] w-[90%] mx-auto'>
+                    <div className='my-20 2xl:w-[70%] lg:w-[90%] w-[90%] mx-auto'>
                         <div className='my-10'>
                             <h1 className='sm:text-5xl text-4xl dark:text-white text-black font-poppins text-center'>Reach Out to Us</h1>
                             <p className='dark:text-white text-black sm:text-base text-sm text-center mt-5'>Submit your details, and we'll respond promptly to your inquiry.</p>
                         </div>
-                        <form action="">
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid md:grid-cols-3 lg:gap-8 sm:gap-5 gap-3'>
                                 <div className="mt-4">
                                     <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="yourName">Your Name</label>
-                                    <input id="yourName" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                                    <input {...register("name", { required: true })}
+                                        id="yourName" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="text" />
+                                    {errors.name && <span className="text-xs text-red-500">This field is required</span>}
                                 </div>
                                 <div className="mt-4">
-                                    <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="EmailAddress">Email Address</label>
-                                    <input id="EmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                                    <label
+                                        className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="EmailAddress">Email Address</label>
+                                    <input {...register("email", { required: true })}
+                                        id="EmailAddress" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                                    {errors.email && <span className="text-xs text-red-500">This field is required</span>}
                                 </div>
                                 <div className="mt-4">
                                     <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="subject">Subject</label>
-                                    <input id="subject" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                                    <input {...register("subject", { required: true })}
+                                        id="subject" className="block w-full px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="text" />
+                                    {errors.subject && <span className="text-xs text-red-500">This field is required</span>}
                                 </div>
                             </div>
                             <div className="mt-8">
                                 <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="message">Message</label>
-                                <textarea id="message" className="block w-full h-32 px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="email" />
+                                <textarea {...register("message", { required: true })}
+                                    id="message" className="block w-full h-32 px-4 py-2 text-gray-700 bg-white border border-black border-opacity-20 rounded-lg dark:bg-themeColor dark:text-gray-300 dark:border-gray-600 focus:border-pmColor focus:ring-opacity-40 focus:outline-none" type="text" />
+                                {errors.message && <span className="text-xs text-red-500">This field is required</span> || <span className="text-xs text-red-500">{error}</span>}
                             </div>
                             <div className="mt-8 rounded-lg md:w-[30%] mx-auto">
                                 <button className="group relative inline-flex h-12 items-center justify-center w-full rounded-lg bg-secColor py-1 pl-6 pr-14 font-medium text-neutral-50">

@@ -19,20 +19,20 @@ const Banner = () => {
     return (
         <div>
             <div className="w-full h-[95vh] relative bg-fixed bg-no-repeat bg-cover bg-center transition-transform duration-500 ease-out" style={{
-                backgroundImage: `url("https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")`,
+                backgroundImage: `url("https://imageio.forbes.com/specials-images/imageserve//5f1edc985d888ccd74fb1a81/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds")`,
                 // transform: `translateY(${scrollPosition / -15}px)`
             }}>
                 <div className="bg-black bg-opacity-50 w-full h-full absolute top-0 flex justify-center items-center transition-opacity duration-300 ease-in-out">
                     <div className="w-[95%] mx-auto transition-transform duration-500 ease-out" style={{
                         // transform: `translateY(${scrollPosition / -1.5}px)`
                     }}>
-                        <h1 className={`mx-auto text-center text-white overflow-hidden lg:text-[46px] text-[35px] font-black font-poppins`}> <span className="sm:flex sm:justify-center sm:items-center gap-5"><span className={`duration-100 ease-out block`} style={{
+                        <h1 className={`mx-auto text-center text-white overflow-hidden lg:text-[46px] text-[35px] font-black font-poppins`}> <span className="sm:flex sm:justify-center sm:items-center gap-5 text-center mx-auto"><span className={`duration-300 ease-out block`} style={{
                                 transform: `translateX(${scrollPosition / -1}px)`
                             }}>Empowering</span> <span
-                            className={`duration-100 ease-out block`} style={{
+                            className={`duration-300 ease-out block`} style={{
                                 transform: `translateX(${scrollPosition / 1}px)`
                             }}>Workforce</span> </span>
-                            <span className={`text-pmColor duration-100 ease-out block`}  style={{
+                            <span className={`text-pmColor duration-300 ease-out block`}  style={{
                                 transform: `translateY(${scrollPosition / -5}px)`
                             }}><Typewriter
                             words={['Productivity', 'Performance', 'Effectiveness']}
@@ -44,7 +44,7 @@ const Banner = () => {
                             loop={true}
                             cursor='pointer'
                         /></span></h1>
-                        <p className='max-w-[800px] w-[95%] mx-auto text-center duration-100 ease-out block font-medium text-white lg:text-[16px] text-[14px] mt-4 mb-8 font-montserrat' style={{
+                        <p className='max-w-[800px] w-[95%] mx-auto text-center duration-300 ease-out block font-medium text-white lg:text-[16px] text-[14px] mt-4 mb-8 font-montserrat' style={{
                                 transform: `translateY(${scrollPosition / 5}px)`
                             }}>Streamline HR tasks, boost productivity, and foster collaboration with our innovative workforce management solutions. Join us for efficiency.</p>
                     </div>

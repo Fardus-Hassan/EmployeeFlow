@@ -143,7 +143,7 @@ const Login = () => {
                         <Link to='/register' className="flex items-center justify-between mt-4">
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
 
-                            <div className="text-xs font-bold text-pmColor uppercase dark:text-gray-400 hover:underline">or sign up</div>
+                            <div className="text-sm font-bold text-pmColor text-opacity-70 capitalize hover:underline">Create Account</div>
 
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
                         </Link>

@@ -5,7 +5,9 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Contact from "../Pages/Contact/Contact";
 import Error from "../Sheared/Error";
-import DashBoard from "../Pages/DashBoard/DashBoard";
+import WorkSheet from "../Pages/DashBoard/EmployeeDB/WorkSheet";
+import PaymentHistory from "../Pages/DashBoard/EmployeeDB/PaymentHistory";
+import PrivateRoute from "./PrivateRoute";
 
 const Route = createBrowserRouter([
     {
@@ -30,9 +32,13 @@ const Route = createBrowserRouter([
                 element: <Contact></Contact>,
             },
             {
-                path: "/dashboard",
-                element: <DashBoard></DashBoard>,
-            }
+                path: "/dashboard/work-sheet",
+                element: <PrivateRoute><WorkSheet></WorkSheet></PrivateRoute>,
+            },
+            {
+                path: "/dashboard/payment-history",
+                element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>,
+            },
         ],
     },
 ]);

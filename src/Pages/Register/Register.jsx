@@ -86,7 +86,7 @@ const Register = () => {
     
             // Prepare user info to be sent to backend
             const userInfo = {
-                name, imgUrl, phone, email, bankAccount, designation, salary, role
+                name, imgUrl, phone, email, bankAccount, designation, salary, role, verify : false
             };
     
             // Send user info to backend for registration

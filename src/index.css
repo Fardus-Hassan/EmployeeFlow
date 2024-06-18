@@ -38,3 +38,7 @@ select {
 .react-datepicker__day--selected{
     background-color: #44bd32!important;
 }
+
+.recharts-tooltip-label{
+    color: #000 !important;
+}

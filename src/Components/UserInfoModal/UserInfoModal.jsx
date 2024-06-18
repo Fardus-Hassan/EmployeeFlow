@@ -22,9 +22,9 @@ const UserInfoModal = () => {
     const onSubmit = async (data) => {
         const email = user?.email
         const name = user?.displayName
-        const photo = user?.photoURL
+        const imgUrl = user?.photoURL
         const { bankAccount, designation, phone, role, salary } = data;
-        const userInfo = { email, name, bankAccount, designation, phone, role, salary, photo}
+        const userInfo = { email, name, bankAccount, designation, phone, role, salary, imgUrl, verify : false}
         console.log(userInfo);
 
         const { data: info } = await axios.post('http://localhost:3000/users', userInfo);

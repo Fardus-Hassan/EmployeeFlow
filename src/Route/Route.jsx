@@ -8,6 +8,9 @@ import Error from "../Sheared/Error";
 import WorkSheet from "../Pages/DashBoard/EmployeeDB/WorkSheet";
 import PaymentHistory from "../Pages/DashBoard/EmployeeDB/PaymentHistory";
 import PrivateRoute from "./PrivateRoute";
+import EmployeeList from "../Pages/DashBoard/HRDB/EmployeeList";
+import Progress from "../Pages/DashBoard/HRDB/Progress";
+import Details from "../Pages/DashBoard/HRDB/Details";
 
 const Route = createBrowserRouter([
     {
@@ -39,6 +42,19 @@ const Route = createBrowserRouter([
                 path: "/dashboard/payment-history",
                 element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>,
             },
+            {
+                path: "/dashboard/employee-list",
+                element: <PrivateRoute><EmployeeList></EmployeeList></PrivateRoute>,
+            },
+            {
+                path: "/dashboard/progress",
+                element: <PrivateRoute><Progress></Progress></PrivateRoute>,
+            },
+            {
+                path: "/dashboard/detail/:email",
+                element: <PrivateRoute><Details></Details></PrivateRoute>,
+            },
+
         ],
     },
 ]);

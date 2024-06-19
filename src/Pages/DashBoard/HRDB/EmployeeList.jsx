@@ -11,8 +11,8 @@ const EmployeeList = () => {
 
     const [open, setOpen] = useState(false);
     const [verify, setVerify] = useState(false);
-    const [detailsOpen, setDetailsOpen] = useState(false);
     const [entries, setEntries] = useState([]);
+    const [detailsOpen, setDetailsOpen] = useState(false);
     const [currentEntry, setCurrentEntry] = useState(null);
 
     const handleVerify = async (id, name) => {

@@ -21,22 +21,24 @@ const Details = () => {
     const [data, setData] = useState({});
     console.log(data);
 
-    const len = [1,2,3,4,5,6,7,8,9,10,11,12,]
-
+    const len = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const wid = len.length * 100;
-    // const widString = wid.toString();
-
-    // console.log(widString);
-
 
 
     const option = {
 
         tooltip: {},
         xAxis: {
-            data: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",]
+            data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         },
-        yAxis: [{ type: 'value', position: 'left' }],
+        yAxis: [{
+            type: 'value', position: 'left', name: 'Salary (in Taka)', nameTextStyle: {
+                fontSize: 14,
+                fontWeight: 'bold',
+                padding: [0, 0, 20, 0],
+                color: '#44bd32'
+            }
+        }],
         series: [{
             name: 'Salary',
             type: 'bar',
@@ -53,26 +55,13 @@ const Details = () => {
             // data: [
             //     { value: 10000, itemStyle: { color: '#FF5733' } }, // January - Red
             // ],
-            data: [
-                { value: 80000, },
-                { value: 50000, },
-                { value: 20000, },
-                { value: 70000, },
-                { value: 30000, },
-                { value: 90000, },
-                { value: 80000, },
-                { value: 40000, },
-                { value: 100000, },
-                { value: 12000, },
-                { value: 60000, },
-                { value: 10000, },
-            ],
+            data: [80000, 50000, 20000, 70000, 30000, 90000, 80000, 40000, 95000, 12000, 60000, 110000],
         }],
         // yAxis: [ { type: 'value', position: 'right' }]
         grid: {
             left: 25,
             right: 25,
-            top: 25,
+            top: 50,
             bottom: 25,
             containLabel: true
         },
@@ -94,9 +83,9 @@ const Details = () => {
     }, [email]);
     return (
         <WithLoading>
-            <div className='sm:pb-24 pb-10 pt-10 max-w-screen'>
+            <div className='sm:pb-20 pb-10 pt-10 max-w-screen'>
                 <div className='sm:pb-12 pb-8 w-[95%] mx-auto'>
-                    <p className='text-xl text-pmColor font-montserrat font-bold text-center'>Employee Detail</p>
+                    <p className='text-xl text-pmColor font-montserrat font-bold text-center'>Employee Details</p>
                     <h1 className='mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white'>
                         Personal Details</h1>
                 </div>
@@ -125,9 +114,9 @@ const Details = () => {
                             </div>
                         </div>
                         <div className='text-center bg-white dark:text-white text-black dark:bg-themeColor2 2xl:px-10 px-5 py-5 rounded-2xl shadow-2xl'>
-                            <div className='flex flex-col justify-center  h-full overflow-auto'>
+                            <div className='flex flex-col justify-center  h-full'>
                                 <MdEmail className='text-3xl text-secColor mb-3 mx-auto' />
-                                <h1 className='font-poppins font-semibold'>{data.email}</h1>
+                                <h1 className='font-poppins font-semibold  overflow-auto'>{data.email}</h1>
                             </div>
                         </div>
                         <div className='text-center bg-white dark:text-white text-black dark:bg-themeColor2 2xl:px-10 px-5 py-5 rounded-2xl shadow-2xl'>
@@ -137,9 +126,9 @@ const Details = () => {
                             </div>
                         </div>
                         <div className='text-center bg-white dark:text-white text-black dark:bg-themeColor2 2xl:px-10 px-5 py-5 rounded-2xl shadow-2xl'>
-                            <div className='flex flex-col justify-center h-full overflow-auto'>
+                            <div className='flex flex-col justify-center h-full'>
                                 <BsBank className='text-3xl text-secColor mb-3 mx-auto' />
-                                <h1 className='font-poppins font-semibold'>{data.bankAccount}</h1>
+                                <h1 className='font-poppins font-semibold overflow-auto'>{data.bankAccount}</h1>
                             </div>
                         </div>
                         <div className='text-center bg-white dark:text-white text-black dark:bg-themeColor2 2xl:px-10 px-5 py-5 rounded-2xl shadow-2xl'>

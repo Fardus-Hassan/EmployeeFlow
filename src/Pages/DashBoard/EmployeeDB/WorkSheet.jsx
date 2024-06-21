@@ -6,47 +6,41 @@ import { GlobalStateContext } from '../../../Global/GlobalContext';
 import toast from 'react-hot-toast';
 import { MdDeleteForever } from 'react-icons/md';
 import Spinner from '../../../Components/smallComponents/Spinner';
-import WithLoading from '../../../Components/smallComponents/WithLoading';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const WorkSheet = () => {
-    const [loading, setLoading] = useState(true)
     const { user } = useContext(GlobalStateContext)
     const [tasks, setTasks] = useState('');
     const [hoursWorked, setHoursWorked] = useState('');
     const [date, setDate] = useState(new Date());
-    const [entries, setEntries] = useState([]);
-    const [deleteId, setDeleteId] = useState('');
+    const AxiosSecure = useAxiosSecure()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data } = await axios.get(`http://localhost:3000/employeeWorkSheet/${user.email}`);
 
-                // Sort data by date (assuming date is in format dd/MM/yyyy)
-                data.sort((a, b) => {
-                    const dateA = new Date(
-                        parseInt(a.date.split('/')[2]), // Year
-                        parseInt(a.date.split('/')[1]) - 1, // Month (zero-indexed)
-                        parseInt(a.date.split('/')[0]) // Day
-                    );
-                    const dateB = new Date(
-                        parseInt(b.date.split('/')[2]), // Year
-                        parseInt(b.date.split('/')[1]) - 1, // Month (zero-indexed)
-                        parseInt(b.date.split('/')[0]) // Day
-                    );
-                    return dateB - dateA; // Sort in descending order
-                });
+    const { data: entries = [], isLoading, refetch } = useQuery({
+        queryKey: ['employeeWorkSheet', user.email],
+        queryFn: async () => {
 
-                setEntries(data);
-                setLoading(false)
-            } catch (error) {
-                console.error('Failed to fetch data:', error);
-                setLoading(false)
-            }
-        };
+            const { data } = await AxiosSecure.get(`/employeeWorkSheet/${user.email}`);
+            return data;
+        }
 
-        fetchData();
-    }, [entries, deleteId, user.email])
+    })
+
+    entries.sort((a, b) => {
+        const dateA = new Date(
+            parseInt(a.date.split('/')[2]), // Year
+            parseInt(a.date.split('/')[1]) - 1, // Month (zero-indexed)
+            parseInt(a.date.split('/')[0]) // Day
+        );
+        const dateB = new Date(
+            parseInt(b.date.split('/')[2]), // Year
+            parseInt(b.date.split('/')[1]) - 1, // Month (zero-indexed)
+            parseInt(b.date.split('/')[0]) // Day
+        );
+        return dateB - dateA; // Sort in descending order
+    });
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,15 +64,8 @@ const WorkSheet = () => {
             setHoursWorked('');
             setDate(new Date());
             toast.success("Submit Successfully")
+            refetch();
         }
-
-        // Add the new entry to the entries array
-        // setEntries([...entries, newEntry]);
-
-        // Clear the form fields
-        // setTasks('');
-        // setHoursWorked('');
-        // setDate(new Date());
     };
 
     const handleDelete = async (id) => {
@@ -86,19 +73,19 @@ const WorkSheet = () => {
         console.log(data);
         if (data.acknowledged) {
             toast.success("Delete Successfully")
-            setDeleteId(id);
+            refetch();
         }
     }
 
-    if (loading) return <Spinner />;
+    if (isLoading) return <Spinner />;
 
     return (
         <>
             <div className="w-[95%] mx-auto sm:pb-24 pb-10 pt-10">
-            <div className='sm:pb-12 pb-8'>
+                <div className='sm:pb-12 pb-8'>
                     <p className="text-xl text-pmColor font-montserrat font-bold text-center">Work Sheet</p>
                     <h1 className="mt-2 text-2xl font-semibold text-black font-poppins text-center capitalize lg:text-4xl dark:text-white">
-                    Productive task list
+                        Productive task list
                     </h1>
                 </div>
                 {/* Form section */}

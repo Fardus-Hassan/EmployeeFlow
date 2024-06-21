@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import WithLoading from '../../../Components/smallComponents/WithLoading';
 import { MdVerifiedUser } from "react-icons/md";
 import { RxCross2 } from 'react-icons/rx';
 import { FaUserLarge } from "react-icons/fa6";
@@ -13,23 +12,50 @@ import { MdEmail } from "react-icons/md";
 import { FaSquarePhone } from "react-icons/fa6";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
+import Spinner from '../../../Components/smallComponents/Spinner';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const Details = () => {
 
-
+    const AxiosSecure = useAxiosSecure()
     const { email } = useParams();
-    const [data, setData] = useState({});
-    console.log(data);
 
-    const len = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    const wid = len.length * 100;
+    
+    const { data = [], isLoading } = useQuery({
+        queryKey: ['users', email],
+        queryFn: async () => {
+
+            const { data } = await AxiosSecure.get(`/users/${email}`);
+            return data;
+        }
+
+    })
+
+
+    const { data : paymentHistory = [], isLoading : loader } = useQuery({
+        queryKey: ['payment-history', email],
+        queryFn: async () => {
+
+            const { data } = await AxiosSecure.get(`/payment-history/${email}`);
+            return data;
+        }
+
+    })
+
+
+   const allPayment =  paymentHistory.map(salary => salary.amount)
+
+   const allMonth = paymentHistory.map(salary => salary.month)
+
+   const wid = paymentHistory.length * 100;
 
 
     const option = {
 
         tooltip: {},
         xAxis: {
-            data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            data: allMonth
         },
         yAxis: [{
             type: 'value', position: 'left', name: 'Salary (in Taka)', nameTextStyle: {
@@ -55,7 +81,7 @@ const Details = () => {
             // data: [
             //     { value: 10000, itemStyle: { color: '#FF5733' } }, // January - Red
             // ],
-            data: [80000, 50000, 20000, 70000, 30000, 90000, 80000, 40000, 95000, 12000, 60000, 110000],
+            data: allPayment,
         }],
         // yAxis: [ { type: 'value', position: 'right' }]
         grid: {
@@ -69,20 +95,11 @@ const Details = () => {
 
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/users/${email}`);
-                setData(response.data); // Assuming response.data is an object containing the user info
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
 
-        fetchData();
-    }, [email]);
+    if (isLoading || loader) {
+        return <Spinner />; 
+    }
     return (
-        <WithLoading>
             <div className='sm:pb-20 pb-10 pt-10 max-w-screen'>
                 <div className='sm:pb-12 pb-8 w-[95%] mx-auto'>
                     <p className='text-xl text-pmColor font-montserrat font-bold text-center'>Employee Details</p>
@@ -145,11 +162,12 @@ const Details = () => {
                         </div>
                     </div>
                 </div>
-                <div className={`overflow-x-auto mx-5`}>
+                {
+                    paymentHistory.length < 1 ? <h1 className='text-2xl dark:text-white text-center text-black font-poppins font-semibold'>No Payment History</h1> : <div className={`overflow-x-auto mx-5`}>
                     <ReactECharts className={`min-h-[500px] min-w-[calc(100vw-300px)]`} option={option} style={{ width: wid, padding: 0, margin: 0 }} opts={{ renderer: 'svg' }} />
                 </div>
+                }
             </div>
-        </WithLoading>
     );
 };
 

@@ -11,6 +11,11 @@ import PrivateRoute from "./PrivateRoute";
 import EmployeeList from "../Pages/DashBoard/HRDB/EmployeeList";
 import Progress from "../Pages/DashBoard/HRDB/Progress";
 import Details from "../Pages/DashBoard/HRDB/Details";
+import AllEmployeeList from "../Pages/DashBoard/Admin/AllEmployeeList";
+import AdminRoute from "./AdminRoute";
+import DashBoard from "../Pages/DashBoard/DashBoard";
+import HrRoute from "./HrRoute";
+import EmployeeRoute from "./EmployeeRoute";
 
 const Route = createBrowserRouter([
     {
@@ -35,24 +40,32 @@ const Route = createBrowserRouter([
                 element: <Contact></Contact>,
             },
             {
+                path: "/dashboard",
+                element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+            },
+            {
                 path: "/dashboard/work-sheet",
-                element: <PrivateRoute><WorkSheet></WorkSheet></PrivateRoute>,
+                element: <EmployeeRoute><PrivateRoute><WorkSheet></WorkSheet></PrivateRoute></EmployeeRoute>,
             },
             {
                 path: "/dashboard/payment-history",
-                element: <PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute>,
+                element: <EmployeeRoute><PrivateRoute><PaymentHistory></PaymentHistory></PrivateRoute></EmployeeRoute>,
             },
             {
                 path: "/dashboard/employee-list",
-                element: <PrivateRoute><EmployeeList></EmployeeList></PrivateRoute>,
+                element: <HrRoute><PrivateRoute><EmployeeList></EmployeeList></PrivateRoute></HrRoute>,
             },
             {
                 path: "/dashboard/progress",
-                element: <PrivateRoute><Progress></Progress></PrivateRoute>,
+                element: <HrRoute><PrivateRoute><Progress></Progress></PrivateRoute></HrRoute>,
             },
             {
                 path: "/dashboard/detail/:email",
-                element: <PrivateRoute><Details></Details></PrivateRoute>,
+                element: <HrRoute><PrivateRoute><Details></Details></PrivateRoute></HrRoute>,
+            },
+            {
+                path: "/dashboard/all-employee-list",
+                element: <AdminRoute><PrivateRoute><AllEmployeeList></AllEmployeeList></PrivateRoute></AdminRoute>,
             },
 
         ],

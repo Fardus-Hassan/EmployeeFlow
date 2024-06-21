@@ -14,7 +14,7 @@ const Login = () => {
     const { login, setShowModal } = useContext(GlobalStateContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const form = location?.state || '/';
+    const form = (location?.state ? "/dashboard" : "/");
     const googleProvider = new GoogleAuthProvider();
     const [error, setError] = useState(null)
     const [showPassword, setShowPassword] = useState(false)

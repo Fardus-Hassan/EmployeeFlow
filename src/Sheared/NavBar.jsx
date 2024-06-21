@@ -6,17 +6,43 @@ import { TbLogout } from "react-icons/tb";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { GlobalStateContext } from "../Global/GlobalContext";
 import { FaSheetPlastic } from "react-icons/fa6";
-import { RiGitRepositoryPrivateLine} from "react-icons/ri";
+import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { GiProgression } from "react-icons/gi";
 import { FaList } from "react-icons/fa";
+import Spinner from "../Components/smallComponents/Spinner";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 
 const NavBar = () => {
 
-    const { isOpen, setIsOpen, user, logout } = useContext(GlobalStateContext)
+    const { isOpen, setIsOpen, user, logout, } = useContext(GlobalStateContext)
     const [path, setPath] = useState("")
     const [open, setOpen] = useState(false);
     const { pathname } = useLocation()
+    const [loading, setLoading] = useState(true)
+    const AxiosSecure = useAxiosSecure();
+    const [role, setRole] = useState()
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const { data } = await AxiosSecure.get(`/users/${user?.email}`);
+                setRole(data.role);
+            } catch (error) {
+                console.error("Error fetching user role:", error);
+                // Handle error (e.g., redirect to login page)
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (user?.email) {
+            fetchData();
+        }
+    }, [user?.email, AxiosSecure]);
+
 
     useEffect(() => {
         setPath(pathname.split('/')[1])
@@ -43,6 +69,9 @@ const NavBar = () => {
         </>
     }
 
+    if (loading) {
+        return <Spinner></Spinner>; 
+    }
 
     return (
         <>
@@ -85,7 +114,7 @@ const NavBar = () => {
                                     Cancel
                                 </button>
 
-                                <Link to='/dashboard/work-sheet' className="w-full">
+                                <Link to='/dashboard' className="w-full">
                                     <button onClick={closeModal} className="group relative inline-flex w-full sm:mt-0 mt-3 text-center mx-auto h-9 items-center justify-center overflow-hidden rounded-md bg-secColor px-5 font-medium text-white">
                                         <span className="text-sm">LogIn</span>
                                         <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
@@ -115,20 +144,8 @@ const NavBar = () => {
 
                             {commonItem()}
 
-
-
-
-                            {/* {user?.email ? <NavLink to='/dashboard/work-sheet' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:bg-secColor hover:text-white rounded-md dark:text-white" href="#">
-                                <MdSpaceDashboard className="text-lg" />
-
-                                <span className="mx-4 font-medium">Dashboard</span>
-                            </NavLink> : <button onClick={openModal} className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:bg-secColor hover:text-white rounded-md dark:text-white w-full" href="#">
-                                <MdSpaceDashboard className="text-lg" />
-
-                                <span className="mx-4 font-medium">Dashboard</span>
-                            </button>} */}
                             {user?.email ? <NavLink
-                             to='/dashboard/employee-list' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:bg-secColor hover:text-white rounded-md dark:text-white" href="#">
+                                to='/dashboard' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:bg-secColor hover:text-white rounded-md dark:text-white" href="#">
                                 <MdSpaceDashboard className="text-lg" />
 
                                 <span className="mx-4 font-medium">Dashboard</span>
@@ -141,20 +158,20 @@ const NavBar = () => {
                         </nav>
 
                         <nav className={`${path !== 'dashboard' ? "hidden" : ""}`}>
-                            <div className={`hidden`}>
+                            <div className={`${role == "Employee" ? "" : "hidden"}`}>
                                 <NavLink to='/dashboard/work-sheet' className="flex items-center px-4 py-2 mb-5 text-black transition-colors duration-300 transform rounded-md dark:text-white hover:bg-secColor hover:text-white" href="#">
                                     <FaSheetPlastic className="text-lg" />
 
                                     <span className="mx-4 font-medium">Work Sheet</span>
                                 </NavLink>
 
-                                <NavLink to='/dashboard/payment-history' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:text-white hover:bg-secColor rounded-md dark:text-white" href="#">
+                                <NavLink to='/dashboard/payment-history' className="flex items-center px-4 py-2 mb-5 transition-colors duration-300 text-black hover:text-white hover:bg-secColor rounded-md dark:text-white" href="#">
                                     <MdOutlinePayment className="text-xl" />
 
                                     <span className="mx-4 font-medium">Payment History</span>
                                 </NavLink>
                             </div>
-                            <div>
+                            <div className={`${role == "HR" ? "" : "hidden"}`}>
                                 <NavLink to='/dashboard/employee-list' className="flex items-center px-4 py-2 mb-5 text-black transition-colors duration-300 transform rounded-md dark:text-white hover:bg-secColor hover:text-white" href="#">
                                     <FaList className="text-base" />
 
@@ -167,12 +184,14 @@ const NavBar = () => {
                                     <span className="mx-4 font-medium">Progress
                                     </span>
                                 </NavLink>
+                            </div>
+                            <div className={`${role == "Admin" ? "" : "hidden"}`}>
+                                <NavLink to='/dashboard/all-employee-list' className="flex items-center px-4 py-2 mb-5 text-black transition-colors duration-300 transform rounded-md dark:text-white hover:bg-secColor hover:text-white" href="#">
+                                    <FaList className="text-base" />
 
-                                {/* <NavLink to='/dashboard/payment-history' className="flex items-center px-4 py-2 mt-5 transition-colors duration-300 text-black hover:text-white hover:bg-secColor rounded-md dark:text-white" href="#">
-                                    <MdOutlinePayment className="text-xl" />
-
-                                    <span className="mx-4 font-medium">Payment History</span>
-                                </NavLink> */}
+                                    <span className="mx-4 font-medium">All Employee List
+                                    </span>
+                                </NavLink>
                             </div>
 
                             <hr className="my-6 border-gray-200 dark:border-gray-600" />

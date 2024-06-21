@@ -1,8 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { auth } from "../firebase.config";
-import axios from "axios";
-import Spinner from "../Components/smallComponents/Spinner";
+
 
 
 export const GlobalStateContext = createContext(null);
@@ -10,7 +9,6 @@ export const GlobalStateContext = createContext(null);
 const GlobalContext = ({ children }) => {
 
     const [loading, setLoading] = useState(true)
-    const [searchData, setSearchData] = useState([])
     const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -89,40 +87,14 @@ const GlobalContext = ({ children }) => {
 
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         const { data } = axios.get(`http://localhost:3000/users/${user?.email}`);
-    //         if (data) {
-    //             setShowModal(false);
-    //         }
-    //         else {
-    //             setShowModal(true);
-    //         }
-    //     }
 
-    // }, [user]);
+ 
 
 
-    // AuthContext --------------------------------------------------------------------------------------------------------------
-
-
-    // const handleSearch = async (value) => {
-    //     const { data } = await axios.get(`${import.meta.env.VITE_SERVER}/events/search/event?search=${value}`)
-    //     setSearchData(data);
-    // }
-
-
-
-    // const currentUrl = window.location.href;
-    // console.log(currentUrl);
-    // useEffect(() => {
-    //     setUrl(currentUrl);
-    // }, [currentUrl]);
-    // console.log(url);
 
     return (
 
-        <GlobalStateContext.Provider value={{ user, searchData, open, showModal, setShowModal, isOpen, setIsOpen, setOpen, setLoading, register, login, logout, setUser, updateUserProfile, loading, }}>
+        <GlobalStateContext.Provider value={{ user, open, showModal, setShowModal, isOpen, setIsOpen, setOpen, setLoading, register, login, logout, setUser, updateUserProfile, loading, }}>
             {children}
         </GlobalStateContext.Provider>
 

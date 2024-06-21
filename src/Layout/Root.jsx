@@ -5,6 +5,7 @@ import Toggle from "../Components/Theme/Toggle";
 import ScrollToTop from "../Components/smallComponents/ScrollToTop";
 import Scroll from "../Components/smallComponents/Scroll";
 import UserInfoModal from "../Components/UserInfoModal/UserInfoModal";
+import FiredEmployeeModal from "../Components/FiredEmloyeeModal/FiredEmployeeModal";
 
 const Root = () => {
 
@@ -17,6 +18,7 @@ const Root = () => {
                         <Toggle></Toggle>
                         <Outlet></Outlet>
                         <UserInfoModal></UserInfoModal>
+                        <FiredEmployeeModal></FiredEmployeeModal>
                         <Scroll></Scroll>
                     </ScrollToTop>
                 </div>

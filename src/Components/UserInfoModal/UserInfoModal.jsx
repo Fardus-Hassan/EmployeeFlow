@@ -24,7 +24,7 @@ const UserInfoModal = () => {
         const name = user?.displayName
         const imgUrl = user?.photoURL
         const { bankAccount, designation, phone, role, salary } = data;
-        const userInfo = { email, name, bankAccount, designation, phone, role, salary, imgUrl, verify : false}
+        const userInfo = { email, name, bankAccount, designation, phone, role, salary, imgUrl, verify : false,}
         console.log(userInfo);
 
         const { data: info } = await axios.post('http://localhost:3000/users', userInfo);

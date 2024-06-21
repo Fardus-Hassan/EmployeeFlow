@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import WithLoading from "../../../Components/smallComponents/WithLoading";
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Spinner from "../../../Components/smallComponents/Spinner";
 import { GrPowerReset } from "react-icons/gr";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const months = [
     { id: 0, name: "January" },
@@ -24,7 +25,7 @@ const months = [
 
 const Progress = () => {
     const [entries, setEntries] = useState([]);
-    const [allEmployees, setAllEmployees] = useState([]);
+    // const [allEmployees, setAllEmployees] = useState([]);
     const [employee, setEmployee] = useState('');
     const [query, setQuery] = useState('');
     const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -32,12 +33,40 @@ const Progress = () => {
     const [monthQuery, setMonthQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [reset, setReset] = useState(false);
+    const [totalWorkHours, setTotalWorkHours] = useState(0); // State for total work hours
+    const AxiosSecure = useAxiosSecure()
 
+
+    
+    const { data =[], isLoading : load } = useQuery({
+        queryKey: ['employeeWorkSheet'],
+        queryFn: async () => {
+
+            const { data } = await AxiosSecure.get(`/employeeWorkSheet`);
+            return data;
+        }
+
+    })
+
+
+    const { data : allEmployees = [], isLoading : loader } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+
+            const { data } = await AxiosSecure.get(`/users`);
+            const onlyEmployees = data.filter(item => item.role !== 'Admin');
+            return onlyEmployees;
+        }
+
+    })
+
+    // Filtered employees based on query
     const filteredEmployees =
         query === ''
             ? allEmployees
             : allEmployees.filter((person) => person.name.toLowerCase().includes(query.toLowerCase()));
 
+    // Filtered months based on monthQuery
     const filteredMonths =
         monthQuery === ''
             ? months
@@ -45,9 +74,8 @@ const Progress = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
             try {
-                const { data } = await axios.get(`http://localhost:3000/employeeWorkSheet`);
+                // const { data } = await AxiosSecure.get(`/employeeWorkSheet`);
                 data.sort((a, b) => {
                     const dateA = new Date(
                         parseInt(a.date.split('/')[2]), // Year
@@ -65,36 +93,19 @@ const Progress = () => {
                 setEntries(data);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
-            } finally {
-                setIsLoading(false);
             }
         };
         fetchData();
-    }, [reset]);
+    }, [reset, data]);
 
-    useEffect(() => {
-        const fetchEmployees = async () => {
-            setIsLoading(true);
-            try {
-                const { data } = await axios.get(`http://localhost:3000/users`);
-                const onlyEmployees = data.filter(item => item.role === 'Employee');
-                setAllEmployees(onlyEmployees);
-            } catch (error) {
-                console.error('Failed to fetch employees:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchEmployees();
-    }, []);
 
     useEffect(() => {
         const fetchFilteredData = async () => {
             setIsLoading(true);
             try {
-                let url = `http://localhost:3000/employeeWorkSheet`;
+                let url = `/employeeWorkSheet`;
                 if (employee) url += `/${employee}`;
-                const { data } = await axios.get(url);
+                const { data } = await AxiosSecure.get(url);
                 const filteredData = selectedMonth
                     ? data.filter((entry) => {
                         const entryMonth = new Date(
@@ -129,12 +140,24 @@ const Progress = () => {
         };
 
         fetchFilteredData();
-    }, [employee, selectedMonth]);
+    }, [employee, selectedMonth, AxiosSecure]);
 
-    if (isLoading) {
+    // Calculate total work hours whenever entries or selectedEmployee changes
+    useEffect(() => {
+        let totalHours = 0;
+        entries.forEach(entry => {
+            if (!selectedEmployee || entry.employeeEmail === selectedEmployee.email) {
+                totalHours += entry.hoursWorked;
+            }
+        });
+        setTotalWorkHours(totalHours);
+    }, [entries, selectedEmployee]);
+
+    
+
+    if (isLoading || load || loader) {
         return <Spinner></Spinner>
     }
-
 
     return (
         <div className="w-[95%] mx-auto sm:pb-24 pb-10 pt-10">
@@ -144,7 +167,7 @@ const Progress = () => {
                     All Employee Progress
                 </h1>
             </div>
-            <div className="flex sm:flex-row flex-col sm:justify-end justify-center gap-4 items-end mb-10">
+            <div className="flex sm:flex-row flex-col sm:justify-end justify-center gap-4 items-center mb-8">
                 <button onClick={() => {
                     setReset(!reset)
                     setMonthQuery('')
@@ -153,13 +176,11 @@ const Progress = () => {
                     setSelectedEmployee(null)
                     setQuery('')
                     setSelectedMonth(null)
-
                 }} className="'w-full rounded-lg placeholder:text-white border-none bg-secColor py-1.5 text-sm/6 text-white text-opacity-95 px-3 group relative inline-flex h-9 items-center justify-center overflow-hidden">
                     <span className="text-sm">Reset</span>
                     <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100">
                         <GrPowerReset className="font-bold ml-1"/>
                     </div>
-
                 </button>
                 <div className="w-52 h-full">
                     <Combobox value={selectedEmployee} onChange={(value) => setSelectedEmployee(value)}>
@@ -242,6 +263,14 @@ const Progress = () => {
                     </Combobox>
                 </div>
             </div>
+
+            {/* Total Work Hours Section */}
+            <div className="flex justify-center mb-4">
+                <p className="text-lg font-semibold text-center text-black dark:text-white">Total Work Hours:</p>
+                <p className="ml-2 text-lg font-semibold text-center text-pmColor">{totalWorkHours} hours</p>
+            </div>
+
+            {/* Table of Entries */}
             {entries.length > 0 ? (
                 <div className="w-full overflow-x-auto rounded-lg border border-pmColor">
                     <table className="min-w-full">

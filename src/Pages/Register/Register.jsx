@@ -90,7 +90,7 @@ const Register = () => {
             };
 
             // Send user info to backend for registration
-            const response = await axios.post('http://localhost:4000/users', userInfo);
+            const response = await axios.post('https://assignment-12-server-teal.vercel.app/users', userInfo);
 
             // Handle any error messages from the backend
             if (response.data?.message) {

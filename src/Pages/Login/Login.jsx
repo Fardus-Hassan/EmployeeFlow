@@ -39,7 +39,7 @@ const Login = () => {
 
                 console.log("google provider" , result);
                 if (result.user?.email) {
-                    const { data } = await axios.get(`http://localhost:4000/users/${result.user?.email}`);
+                    const { data } = await axios.get(`https://assignment-12-server-teal.vercel.app/users/${result.user?.email}`);
                     if (!data) {
                         setShowModal(true);
                     }

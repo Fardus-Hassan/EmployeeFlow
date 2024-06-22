@@ -36,7 +36,7 @@ const Contact = () => {
     const onSubmit = async (data) => {
         setError('')
         try {
-            const { data: info } = await axios.post('http://localhost:4000/contact', data);
+            const { data: info } = await axios.post('https://assignment-12-server-teal.vercel.app/contact', data);
             if (info.acknowledged) {
                 reset();
                 toast.success('Message Send Successfully');

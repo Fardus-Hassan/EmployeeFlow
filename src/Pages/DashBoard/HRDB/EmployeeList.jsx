@@ -63,7 +63,7 @@
 
 //     const handleVerify = async (id, name) => {
 //         try {
-//             const { data } = await axios.patch(`http://localhost:4000/users/${id}`, { verify: true });
+//             const { data } = await axios.patch(`https://assignment-12-server-teal.vercel.app/users/${id}`, { verify: true });
 //             if (data.acknowledged) {
 //                 toast.success(`Verified ${name}`);
 //                 refetch();
@@ -442,7 +442,7 @@ const EmployeeList = () => {
 
     const handleVerify = async (id, name) => {
         try {
-            const { data } = await axios.patch(`http://localhost:4000/users/${id}`, { verify: true });
+            const { data } = await axios.patch(`https://assignment-12-server-teal.vercel.app/users/${id}`, { verify: true });
             if (data.acknowledged) {
                 toast.success(`Verified ${name}`);
                 refetch();

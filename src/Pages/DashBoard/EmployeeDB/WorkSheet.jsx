@@ -57,7 +57,7 @@ const WorkSheet = () => {
             employeePhoto: user?.photoURL,
         };
 
-        const { data } = await axios.post('http://localhost:4000/employeeWorkSheet', newEntry);
+        const { data } = await axios.post('https://assignment-12-server-teal.vercel.app/employeeWorkSheet', newEntry);
         console.log(data);
         if (data.acknowledged) {
             setTasks('');
@@ -69,7 +69,7 @@ const WorkSheet = () => {
     };
 
     const handleDelete = async (id) => {
-        const { data } = await axios.delete(`http://localhost:4000/employeeWorkSheet/${id}`);
+        const { data } = await axios.delete(`https://assignment-12-server-teal.vercel.app/employeeWorkSheet/${id}`);
         console.log(data);
         if (data.acknowledged) {
             toast.success("Delete Successfully")

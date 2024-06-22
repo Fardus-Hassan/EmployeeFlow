@@ -2,39 +2,12 @@ import { useContext } from "react";
 import { GlobalStateContext } from "../../../Global/GlobalContext";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../../Components/smallComponents/Spinner";
 
 const PaymentHistory = () => {
 
     const { user } = useContext(GlobalStateContext)
     const AxiosSecure = useAxiosSecure()
-
-
-    // const entries = [
-    //     {
-    //         month: "16/06/2024",
-    //         amount: "30000",
-    //         transactionId: "5346783fgh544"
-
-    //     },
-    //     {
-    //         month: "16/06/2024",
-    //         amount: "30000",
-    //         transactionId: "5346783fgh544"
-
-    //     },
-    //     {
-    //         month: "16/06/2024",
-    //         amount: "30000",
-    //         transactionId: "5346783fgh544"
-
-    //     },
-    //     {
-    //         month: "16/06/2024",
-    //         amount: "30000",
-    //         transactionId: "5346783fgh544"
-
-    //     }
-    // ];
 
 
     const { data: entries = [], isLoading, refetch } = useQuery({
@@ -47,6 +20,9 @@ const PaymentHistory = () => {
 
     })
 
+    if(isLoading){
+        return <Spinner></Spinner>
+    }
 
     return (
         <>

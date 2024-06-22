@@ -28,7 +28,7 @@ const UserInfoModal = () => {
         const userInfo = { email, name, bankAccount, designation, phone, role, salary, imgUrl, verify : false,}
         console.log(userInfo);
 
-        const { data: info } = await axios.post('http://localhost:4000/users', userInfo);
+        const { data: info } = await axios.post('https://assignment-12-server-teal.vercel.app/users', userInfo);
 
         console.log(info);
 

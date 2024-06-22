@@ -16,7 +16,7 @@ const FiredEmployeeModal = () => {
     useEffect(() => {
         const fetchData = async()=>{
             try{
-                const {data} = await axios.get(`http://localhost:4000/users/${user?.email}`)
+                const {data} = await axios.get(`https://assignment-12-server-teal.vercel.app/users/${user?.email}`)
                 if(data?.fired){
                     setFired(true)
                 }

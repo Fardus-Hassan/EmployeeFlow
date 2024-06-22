@@ -11,7 +11,7 @@ import { GiProgression } from "react-icons/gi";
 import { FaList } from "react-icons/fa";
 import Spinner from "../Components/smallComponents/Spinner";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-
+import { MdContacts } from "react-icons/md";
 
 const NavBar = () => {
 
@@ -190,6 +190,12 @@ const NavBar = () => {
                                     <FaList className="text-base" />
 
                                     <span className="mx-4 font-medium">All Employee List
+                                    </span>
+                                </NavLink>
+                                <NavLink to='/dashboard/contact' className="flex items-center px-4 py-2 mb-5 text-black transition-colors duration-300 transform rounded-md dark:text-white hover:bg-secColor hover:text-white" href="#">
+                                    <MdContacts className="text-lg" />
+
+                                    <span className="mx-4 font-medium">Contact Us
                                     </span>
                                 </NavLink>
                             </div>

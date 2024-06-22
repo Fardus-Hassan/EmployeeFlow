@@ -16,6 +16,7 @@ import AdminRoute from "./AdminRoute";
 import DashBoard from "../Pages/DashBoard/DashBoard";
 import HrRoute from "./HrRoute";
 import EmployeeRoute from "./EmployeeRoute";
+import ContactUs from "../Pages/DashBoard/Admin/ContactUs";
 
 const Route = createBrowserRouter([
     {
@@ -66,6 +67,10 @@ const Route = createBrowserRouter([
             {
                 path: "/dashboard/all-employee-list",
                 element: <AdminRoute><PrivateRoute><AllEmployeeList></AllEmployeeList></PrivateRoute></AdminRoute>,
+            },
+            {
+                path: "/dashboard/contact",
+                element: <AdminRoute><PrivateRoute><ContactUs></ContactUs></PrivateRoute></AdminRoute>,
             },
 
         ],

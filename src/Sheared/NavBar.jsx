@@ -15,7 +15,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const NavBar = () => {
 
-    const { isOpen, setIsOpen, user, logout, } = useContext(GlobalStateContext)
+    const { isOpen, setIsOpen, user, logout, load } = useContext(GlobalStateContext)
     const [path, setPath] = useState("")
     const [open, setOpen] = useState(false);
     const { pathname } = useLocation()
@@ -29,7 +29,7 @@ const NavBar = () => {
             setLoading(true);
             try {
                 const { data } = await AxiosSecure.get(`/users/${user?.email}`);
-                setRole(data.role);
+                setRole(data?.role);
             } catch (error) {
                 console.error("Error fetching user role:", error);
                 // Handle error (e.g., redirect to login page)
@@ -38,15 +38,15 @@ const NavBar = () => {
             }
         };
 
-        if (user?.email) {
-            fetchData();
-        }
-    }, [user?.email, AxiosSecure]);
+
+        fetchData();
+    }, [user?.email, load, AxiosSecure]);
 
 
     useEffect(() => {
         setPath(pathname.split('/')[1])
     }, [pathname, path])
+
 
 
     const openModal = () => setOpen(true);
@@ -70,7 +70,7 @@ const NavBar = () => {
     }
 
     if (loading) {
-        return <Spinner></Spinner>; 
+        return <Spinner></Spinner>;
     }
 
     return (

@@ -1,31 +1,51 @@
+import { useContext } from "react";
+import { GlobalStateContext } from "../../../Global/GlobalContext";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const PaymentHistory = () => {
-    const entries = [
-        {
-            month: "16/06/2024",
-            amount: "30000",
-            transactionId: "5346783fgh544"
 
-        },
-        {
-            month: "16/06/2024",
-            amount: "30000",
-            transactionId: "5346783fgh544"
+    const { user } = useContext(GlobalStateContext)
+    const AxiosSecure = useAxiosSecure()
 
-        },
-        {
-            month: "16/06/2024",
-            amount: "30000",
-            transactionId: "5346783fgh544"
 
-        },
-        {
-            month: "16/06/2024",
-            amount: "30000",
-            transactionId: "5346783fgh544"
+    // const entries = [
+    //     {
+    //         month: "16/06/2024",
+    //         amount: "30000",
+    //         transactionId: "5346783fgh544"
 
+    //     },
+    //     {
+    //         month: "16/06/2024",
+    //         amount: "30000",
+    //         transactionId: "5346783fgh544"
+
+    //     },
+    //     {
+    //         month: "16/06/2024",
+    //         amount: "30000",
+    //         transactionId: "5346783fgh544"
+
+    //     },
+    //     {
+    //         month: "16/06/2024",
+    //         amount: "30000",
+    //         transactionId: "5346783fgh544"
+
+    //     }
+    // ];
+
+
+    const { data: entries = [], isLoading, refetch } = useQuery({
+        queryKey: ['payment-history', user?.email],
+        queryFn: async () => {
+
+            const { data } = await AxiosSecure.get(`/payment-history/${user?.email}`);
+            return data;
         }
-    ];
+
+    })
 
 
     return (
@@ -42,7 +62,7 @@ const PaymentHistory = () => {
                         <thead className="bg-secColor">
                             <tr>
                                 <th scope="col" className="px-6 text-center text-sm py-3 font-medium text-white uppercase text-nowrap tracking-wider">
-                                    DATE/MOUNT/YEAR
+                                    MOUNT/YEAR
                                 </th>
                                 <th scope="col" className="px-6 text-center text-sm py-3 font-medium text-white uppercase text-nowrap tracking-wider">
                                     Amount

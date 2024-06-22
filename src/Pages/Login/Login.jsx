@@ -11,7 +11,7 @@ import axios from "axios";
 
 const Login = () => {
 
-    const { login, setShowModal } = useContext(GlobalStateContext);
+    const { login, setShowModal, load, setLoad } = useContext(GlobalStateContext);
     const navigate = useNavigate();
     const location = useLocation();
     const form = (location?.state ? "/dashboard" : "/");
@@ -39,7 +39,7 @@ const Login = () => {
 
                 console.log("google provider" , result);
                 if (result.user?.email) {
-                    const { data } = await axios.get(`http://localhost:3000/users/${result.user?.email}`);
+                    const { data } = await axios.get(`http://localhost:4000/users/${result.user?.email}`);
                     if (!data) {
                         setShowModal(true);
                     }
@@ -60,6 +60,8 @@ const Login = () => {
             if (result.user) {
                 navigate(form);
                 toast.success('Login Successfully');
+                setLoad(!load);
+
             }
         })
             .catch((error) => {

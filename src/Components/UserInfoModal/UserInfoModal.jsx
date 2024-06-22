@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { MdManageAccounts } from 'react-icons/md';
 import { IoPeople } from 'react-icons/io5';
 import { FaStarOfLife } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { GlobalStateContext } from '../../Global/GlobalContext';
 import WithLoading from '../smallComponents/WithLoading';
 import { TbLogout } from 'react-icons/tb';
@@ -13,10 +13,11 @@ import toast from 'react-hot-toast';
 
 const UserInfoModal = () => {
 
-    const { showModal, setShowModal, logout, user } = useContext(GlobalStateContext);
+    const { showModal, setShowModal, logout, user, setLoad, load } = useContext(GlobalStateContext);
     const [role, setRole] = useState('');
     const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
     const [error, setError] = useState('');
+    const location = useLocation();
 
 
     const onSubmit = async (data) => {
@@ -27,16 +28,18 @@ const UserInfoModal = () => {
         const userInfo = { email, name, bankAccount, designation, phone, role, salary, imgUrl, verify : false,}
         console.log(userInfo);
 
-        const { data: info } = await axios.post('http://localhost:3000/users', userInfo);
+        const { data: info } = await axios.post('http://localhost:4000/users', userInfo);
 
         console.log(info);
 
         if (info.acknowledged) {
             reset();
             setError("");
-            toast.success('successfully Registered');
             setRole(null);
             setShowModal(false);
+            // window.location.reload();
+            setLoad(!load)
+            toast.success('successfully Registered');
         }
 
 

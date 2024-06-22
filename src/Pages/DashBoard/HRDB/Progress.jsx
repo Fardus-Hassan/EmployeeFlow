@@ -54,7 +54,7 @@ const Progress = () => {
         queryFn: async () => {
 
             const { data } = await AxiosSecure.get(`/users`);
-            const onlyEmployees = data.filter(item => item.role !== 'Admin');
+            const onlyEmployees = data.filter(item => item.role === 'Employee');
             return onlyEmployees;
         }
 

@@ -36,7 +36,7 @@ const Contact = () => {
     const onSubmit = async (data) => {
         setError('')
         try {
-            const { data: info } = await axios.post('http://localhost:3000/contact', data);
+            const { data: info } = await axios.post('http://localhost:4000/contact', data);
             if (info.acknowledged) {
                 reset();
                 toast.success('Message Send Successfully');

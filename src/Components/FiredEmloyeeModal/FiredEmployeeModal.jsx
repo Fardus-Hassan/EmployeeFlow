@@ -16,7 +16,7 @@ const FiredEmployeeModal = () => {
     useEffect(() => {
         const fetchData = async()=>{
             try{
-                const {data} = await axios.get(`http://localhost:3000/users/${user?.email}`)
+                const {data} = await axios.get(`http://localhost:4000/users/${user?.email}`)
                 if(data?.fired){
                     setFired(true)
                 }

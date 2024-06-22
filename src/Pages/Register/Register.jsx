@@ -14,7 +14,7 @@ const Register = () => {
 
     const [role, setRole] = useState(null);
     const [imgName, setImgName] = useState(null);
-    const { register: regis, setUser, updateUserProfile} = useContext(GlobalStateContext);
+    const { register: regis, setUser, updateUserProfile, load, setLoad } = useContext(GlobalStateContext);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const form = location?.state || '/';
@@ -43,7 +43,7 @@ const Register = () => {
         const {
             name, photo, phone, email, bankAccount, designation, salary, password, confirmPassword, role
         } = data;
-    
+
         try {
             // Password validation
             if (password.length < 6) {
@@ -58,7 +58,7 @@ const Register = () => {
             if (password !== confirmPassword) {
                 return setError('Password and Confirm Password must match');
             }
-    
+
             let imgUrl = null;
             // Upload photo if provided
             if (photo && photo[0]) {
@@ -76,39 +76,42 @@ const Register = () => {
                     return setError('Failed to upload image');
                 }
             }
-    
+
             // Register user with email and password
             const result = await regis(email, password);
             setUser(result.user);
-    
+
             // Update user profile with uploaded image and name
             await updateUserProfile(imgUrl, name);
-    
+
             // Prepare user info to be sent to backend
             const userInfo = {
-                name, imgUrl, phone, email, bankAccount, designation, salary, role, verify : false,
+                name, imgUrl, phone, email, bankAccount, designation, salary, role, verify: false,
             };
-    
+
             // Send user info to backend for registration
-            const response = await axios.post('http://localhost:3000/users', userInfo);
-    
+            const response = await axios.post('http://localhost:4000/users', userInfo);
+
             // Handle any error messages from the backend
             if (response.data?.message) {
                 setError(response.data.message);
             }
-    
+
             // Reset form and state after successful registration
-            toast.success('Registered Successfully');
             reset();
             setError('');
             setRole(null);
             navigate(form); // Navigate to the specified form route
+            // window.location.reload();    
+            setLoad(!load)
+            
+            toast.success('Registered Successfully');
         } catch (error) {
             console.error('Registration error:', error);
             setError(error.message);
         }
     };
-    
+
 
 
     return (
